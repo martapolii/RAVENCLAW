@@ -152,8 +152,6 @@ The document is included in the repository under the /docs folder.
 ## **Project Management**
 
 We will be using [GitHub Projects](https://github.com/users/martapolii/projects/3) to track our project progress. Our tracking board includes:
-
-- 
 - A Product Backlog: Features and functionality requirements.
 - A Task Board: Tasks assigned to team members.
 
