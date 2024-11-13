@@ -15,8 +15,6 @@ RAVEN CLAW is an interactive Harry Potter-themed trivia web application built us
 - [Project Tracking](#project-tracking)
 - [Demo Video](#demo-video)
 - [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ---
 
