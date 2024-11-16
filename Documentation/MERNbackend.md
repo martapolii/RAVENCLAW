@@ -157,20 +157,46 @@ yarn add express
 ```
 - add modules to handle HTTP requests and serve responses properly:
 ```
-body-parser: yarn add body-parser 
-cookie-parser: yarn add cookie-parser 
-compression: yarn add compression 
-helmet: yarn add helmet 
-cors: yarn add cors
+  body-parser: yarn add body-parser 
+  cookie-parser: yarn add cookie-parser 
+  compression: yarn add compression 
+  helmet: yarn add helmet 
+  cors: yarn add cors
 ```
-- update express.js to import these modules and update express app before exporting it for use in the server (see file comments)
+- update express.js to import these modules and update express app before exporting it for use in the server 
+```
+import express from 'express'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import compress from 'compression'
+import cors from 'cors'
+import helmet from 'helmet'
+const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
+app.use(compress())
+app.use(helmet())
+app.use(cors())
+export default app
+```
 - express can now accept and process HTTP requests
 
 **2. Starting the server **
 - update server.js to implement the server
 ```
-import config from './config/config.js'; 
-app.use(express.static(path.join(__dirname, "../dist")));
+import config from './../config/config' 
+import app from './express'
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to User application." });
+});
+app.listen(config.port, (err) => { 
+if (err) {
+console.log(err) 
+}
+console.info('Server started on port %s.', config.port) 
+})
+
 ```
 - update the app.listen function that sets the port with the config 
 **** this is where you would display a message in browser when running the server****
