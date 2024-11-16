@@ -141,26 +141,6 @@ yarn add nodemon
 ```
 yarn add development
 ```
-- confirm this script in package.json:
-```
-"dev": "concurrently \"vite --config ./client/vite.config.js\" \"nodemon ./server/server.js\""
-```
-- add the type=module in the package.json in server side 
-- *** change to import from require in server.js since using ES modules:
-```
-  import express from 'express';
-  import path from 'path';
-```
-- *** had to add this to top of server.js file to use ES modules since __dirame is not available by default:
-  ```
-    import { fileURLToPath } from 'url';
-    import { dirname } from 'path';
-  ```
-- ** update assets-router.js (see file comments)
-- now run
-```
-yarn dev
-```
 
 ## **4. Implement an Express server**
 **1. Configure express**
