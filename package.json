@@ -1,0 +1,9 @@
+{
+  "name": "RAVENCLAW",
+  "version": "1.0.0",
+  "description": "A Harry Potter trivia MERN stack web app",
+  "main": "index.js",
+  "repository": "https://github.com/martapolii/RAVENCLAW.git",
+  "author": "Marta, Tanner, Holly, Joshua",
+  "license": "MIT"
+}
