@@ -98,8 +98,16 @@ npx vite --version
 ```
 yarn add --dev @babel/core babel-loader @babel/preset-env
 ```
-### **Configure Nodemon**
+### **Configure + Install Nodemon**
 - configure nodemon to watch the server folder for changes and restart the server when changes are detected
+  - create a nodemon.json file in root, add this configuration:
+```
+{
+"verbose": false,
+"watch": [ "./server" ]
+}
+```
+- run in terminal to install:
 ```
 yarn add nodemon
 ```
@@ -120,11 +128,19 @@ yarn add nodemon
  export default config
 ```
 
-
-
-
 ## **3. Run scripts**
-- yarn development script 
+- allow us to run and debug backend implementation
+  - to run server as we develop the code add yarn development script in package.json:
+```
+  "scripts": {
+  "development": "nodemon" 
+  }
+
+```
+  - start Nodemon: 
+```
+yarn add development
+```
 - confirm this script in package.json:
 ```
 "dev": "concurrently \"vite --config ./client/vite.config.js\" \"nodemon ./server/server.js\""
