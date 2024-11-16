@@ -1,0 +1,18 @@
+// babel configuration file - converts ES6+ into older versions of JS so compatible with Node version being used 
+
+{
+  "presets": [
+  ["@babel/preset-env", 
+  {
+  "targets": {
+  "node": "current" 
+  }
+  } 
+  ],
+  "@babel/preset-react" 
+  ],
+  "plugins": [
+  "react-hot-loader/babel" 
+  ]
+}
+  
