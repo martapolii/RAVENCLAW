@@ -48,6 +48,7 @@
   - store meta information about the project
   - list module dependencies
   - define run scripts
+- run in terminal"
 ```
 yarn init
 ```
@@ -97,8 +98,13 @@ npx vite --version
 ```
 yarn add --dev @babel/core babel-loader @babel/preset-env
 ```
+### **Configure Nodemon**
+- configure nodemon to watch the server folder for changes and restart the server when changes are detected
+```
+yarn add nodemon
+```
 
-**5. Config variables **
+### **Config variables **
 - in config.js define some server-side configuration-related variables
 ```
  const config = {
@@ -114,19 +120,7 @@ yarn add --dev @babel/core babel-loader @babel/preset-env
  export default config
 ```
 
-### **Configure Nodemon**
- - check if installed globally:
- ```
- nodemon --version
- ```
-- or locally:
-```
-npx nodemon --version
-```
-  - install nodemon from client folder 
-```
-  npm install nodemon --save-dev
-```
+
 
 
 ## **3. Run scripts**
