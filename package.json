@@ -1,9 +1,0 @@
-{
-  "name": "RAVENCLAW",
-  "version": "1.0.0",
-  "description": "A MERN web application called RAVEN CLAW, designed as a Harry Potter trivia site where users can test their knowledge of evverything Harry Potter.",
-  "main": "index.js",
-  "repository": "https://github.com/martapolii/RAVENCLAW.git",
-  "author": "Marta <118316713+martapolii@users.noreply.github.com>",
-  "license": "MIT"
-}
