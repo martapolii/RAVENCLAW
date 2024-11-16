@@ -17,6 +17,7 @@
     "cookie-parser": "^1.4.7",
     "development": "^0.0.6",
     "express": "^4.21.1",
+    "helmet": "^8.0.0",
     "nodemon": "^3.1.7"
   },
   "scripts": {
