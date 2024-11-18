@@ -4,7 +4,7 @@ import app from './express';
 import dotenv from 'dotenv';
 
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../.env') }); //configure to read .env file from root
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to User application." });

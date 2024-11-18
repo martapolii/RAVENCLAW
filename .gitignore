@@ -1,0 +1,3 @@
+# should have environmental variables file listed in here
+
+#.env - commented out for now so group members can run the app without having to create their own .env file
