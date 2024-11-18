@@ -198,6 +198,31 @@ console.info('Server started on port %s.', config.port)
 })
 
 ```
+- create an index.js file and configure the port number for the server
+```
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Add your server routes and middleware here
+// For example:
+ app.get('/', (req, res) => {
+   res.send('Hello, world!');
+ });
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+```
+- run
+```
+yarn development
+```
+
+
+
+
 - update the app.listen function that sets the port with the config 
 **** this is where you would display a message in browser when running the server****
 
