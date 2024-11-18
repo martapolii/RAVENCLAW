@@ -219,29 +219,27 @@ app.listen(port, () => {
 ```
 yarn development
 ```
+-- console should now display "Server is running on port 3000"
 
 
-
-
-- update the app.listen function that sets the port with the config 
-**** this is where you would display a message in browser when running the server****
-
-- added an.env file in root and defined port #
-- the install dotenv to load environmemtal variables
+- the install dotenv to load environmemtal variables (will need this later)
 ```
  npm install dotenv
 ```
  - import dotenv in server.js:
 ```
 import dotenv from 'dotenv';
-dotenv.config();
-```
-  - port 5173 serves the front end using vite
-  - port 5001 serves the front end using express 
-- configure to read .env from root folder:
+``` 
+- configure to read .env from root folder in server.js file:
 ```
  dotenv.config({ path: path.resolve(__dirname, '../.env') });
 ```
+
+**Once Tanner has the front end set up, can continue with steps in Week 4 PPT: "Configuring an Express application - REACTVITESETUP(FRONT AND BACKEND (3) (13) (6))"
+
+
+
+
 
 ## **5. Implement a user and contact model and controllers with mongoose** 
 **1. Setting up Mongoose **
