@@ -1,0 +1,14 @@
+nav {
+    background-color: #0e1a40; /* Raven Claw Dark blue background */
+    padding: 10px;
+}
+
+nav ul li a {
+    color: #946b2b !important; /*Raven Claw Bronze*/
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
