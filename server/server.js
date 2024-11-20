@@ -1,4 +1,5 @@
 // Implement the server
+import express from 'express'; ///import express module
 import config from './../config/config.js' ;
 import app from './express.js';
 import dotenv from 'dotenv';
@@ -22,9 +23,21 @@ mongoose.connect(config.mongoUri)
     console.error('MongoDB connection error:', error);
   });
 
+// serve static files from the dist folder when root URL (/) is accessed 
+app.use("/", express.static(path.join(__dirname, '../client/dist'))); // changed from public to dist
+app.get("/api/v1", (req, res) => { // root handler for GET requests to /api/v1
+  res.json({
+    project: "React and Express Boilerplate",
+    from: "Vanaldito",
+  });
+});
+app.get("/*", (_req, res) => { // catch-ll route for all other requests
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html")); // serves index.html from public directory
+})
+
   
 // starts the server
-app.listen(config.port, (err) => {
+app.listen(config.port, (err) => { // starts server on port specified in ./config/config.js
   if (err) {
     console.log(err); // logs errors if any
   }
