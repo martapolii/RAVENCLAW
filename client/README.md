@@ -1,3 +1,6 @@
+Run `npm install` in client folder to generate the node-modules folder.
+Run `npm run dev` to start the web app locally. 
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
