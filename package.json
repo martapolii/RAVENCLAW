@@ -21,10 +21,16 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "helmet": "^8.0.0",
-    "mongoose": "^8.8.2"
+    "mongoose": "^8.8.2",
+    "global": "^4.4.0"
   },
   "scripts": {
     "start":   "concurrently \"npm run dev\" \"cd client && npm start\"",
-    "dev": "nodemon server/server.js"
+    "dev": "nodemon server/server.js",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   }
+
 }
+
