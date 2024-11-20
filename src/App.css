@@ -1,0 +1,117 @@
+/* Global Styles */
+.App {
+    text-align: center;
+    font-family: 'Georgia', serif; /* Custom font */
+  }
+  
+  .App-header {
+    background-color: #282c34; /* Dark background color */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  /* Home Page Styling */
+  .home-container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    font-family: 'Georgia', serif;
+    background-color: #0e1a40; /* Dark blue background */
+    color: #946b2b; /* Bronze text color */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .home-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  /* GamePlay Styling */
+  .gameplay-container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    font-family: 'Georgia', serif;
+    background-color: #0e1a40; /* Dark blue background */
+    color: #946b2b; /* Bronze text color */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  .question {
+    margin-bottom: 30px;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .option-button {
+    background-color: #946b2b; /* Bronze */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .option-button:hover {
+    background-color: #c0c0c0; /* Silver */
+    color: #0e1a40; /* Dark blue text */
+  }
+  
+  .result {
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #946b2b;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #c0c0c0;
+    color: #0e1a40;
+  }
+  
+  /* Styling for Navbar */
+  nav {
+    background-color: #0e1a40; /* Ravenclaw Dark blue */
+    padding: 10px;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  nav ul li a {
+    color: #946b2b !important; /* Ravenclaw Bronze */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav ul li a:hover {
+    text-decoration: underline;
+  }
+  
