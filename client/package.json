@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"nodemon ../server/server.js\"",
+    "predeploy": "npm run build", 
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -24,7 +24,7 @@
     "mongoose": "^8.8.2"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start":   "concurrently \"npm run dev\" \"cd client && npm start\"",
     "dev": "nodemon server/server.js"
   }
 }
