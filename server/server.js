@@ -23,7 +23,13 @@ mongoose.connect(config.mongoUri)
     console.error('MongoDB connection error:', error);
   });
 
-// serve static files from the dist folder when root URL (/) is accessed 
+// serve static/development files from the public folder 
+app.use("/public", express.static(path.join(__dirname, "../client/public")));
+
+// assets-router to serve specific assets 
+app.use("/assets", assetsRouter);
+
+// serve production files from the dist folder when root URL (/) is accessed (everything in public folder gets 'generated' in dist when launching app by React automatically)
 app.use("/", express.static(path.join(__dirname, '../client/dist'))); // changed from public to dist
 app.get("/api/v1", (req, res) => { // root handler for GET requests to /api/v1
   res.json({
@@ -31,7 +37,7 @@ app.get("/api/v1", (req, res) => { // root handler for GET requests to /api/v1
     from: "Vanaldito",
   });
 });
-app.get("/*", (_req, res) => { // catch-ll route for all other requests
+app.get("/*", (_req, res) => { // catch-all route for all other requests
   res.sendFile(path.join(__dirname, "../client/dist", "index.html")); // serves index.html from public directory
 })
 
