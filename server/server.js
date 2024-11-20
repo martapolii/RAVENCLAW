@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
+import assetsRouter from "./routes/assets-router.js"; // import assets-router
 
 // get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
