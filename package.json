@@ -5,7 +5,8 @@
   "main": "./server/index.js",
   "type": "module",
   "repository": "https://github.com/martapolii/RAVENCLAW.git",
-  "author": "Marta, Tanner, Holly, Joshua",
+  "homepage": "https://martapolii.github.io/RAVENCLAW/",
+  "author": "Marta, Tanner, Holly, Joshua, Sumalatha",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -31,6 +32,8 @@
     "dev": "nodemon server/server.js",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d client/dist"
   }
 }
