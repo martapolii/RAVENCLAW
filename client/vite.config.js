@@ -4,6 +4,8 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
+//base: "/RAVENCLAW/", // added for GitHub compatibility - THIS NEEDS TO BE THE BASE FOR GIT HUB PAGES TO WORK
+  base: "/", //added to fix index.html not populating in dist folder
   root: "./", //ensure root is set to the root of the project
   build: {
     outDir: "dist", //specifies output directory (attempt to fix index.html not populating in dist folder)
@@ -12,5 +14,4 @@ export default defineConfig({
         input: "./index.html", //entry file for the app
     },
   },
-base: "/RAVENCLAW/", // added for GitHub compatibility
 });
