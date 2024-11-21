@@ -11,6 +11,9 @@ const Navbar = () => {
         <li><Link to="/question-details" style={{ color: 'black', textDecoration: 'none' }}>Question Details</Link></li>
         <li><Link to="/login" style={{ color: 'black', textDecoration: 'none' }}>Login</Link></li>
         <li><Link to="/register" style={{ color: 'black', textDecoration: 'none' }}>Register</Link></li>
+        <li><Link to="/user-profile" style={{ color: 'black', textDecoration: 'none' }}>User Profile</Link></li>
+        <li><Link to="/game-play" style={{ color: 'black', textDecoration: 'none' }}>Game Play</Link></li>
+        <li><Link to="/admin-questions" style={{ color: 'black', textDecoration: 'none' }}>Admin Questions</Link></li>
       </ul>
     </nav>
   );
