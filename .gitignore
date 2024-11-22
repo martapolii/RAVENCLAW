@@ -1,0 +1,9 @@
+
+=======
+# should have environmental variables file listed in here
+
+# Ignore the .env file to keep sensitive information out of version control
+.env
+# Ignore node_modules
+node_modules/
+>>>>>>> e103f19c6655d2c20bba47aaf07f0d99874d6f64
