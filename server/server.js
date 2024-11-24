@@ -1,22 +1,25 @@
-// Implement the server
-import express from 'express'; ///import express module
-import config from './../config/config.js' ;
-import app from './express.js';
-import dotenv from 'dotenv';
-import path from 'path';
-import mongoose from 'mongoose';
-import { fileURLToPath } from 'url';
-import assetsRouter from "./routes/assets-router.js"; // import assets-router
-import questionRouter from "./routes/questionRoutes.js"; // import question-router
+// Import modules
+import express from 'express'; // import express module
+import config from './../config/config.js'; // import configuration
+import dotenv from 'dotenv'; // import dotenv for environment variables
+import path from 'path'; // import path module for file and directory paths
+import mongoose from 'mongoose'; // import mongoose for MongoDB connection
+import { fileURLToPath } from 'url'; // import fileURLToPath for ES module compatibility
+import assetsRouter from './routes/assets-router.js'; // import assets-router
+import userRoutes from './routes/userRoutes.js'; // import user routes
+import questionRoutes from './routes/questionRoutes.js'; // import question routes
 
-// get the directory name of the current module
+// Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// configures dotenv to read the .env file
+// Configures dotenv to read the .env file
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-//mongodb connection
+// Initialize express app
+const app = express();
+
+// MongoDB connection
 mongoose.connect(config.mongoUri)
   .then(() => {
     console.log('Connected to MongoDB');
@@ -25,26 +28,31 @@ mongoose.connect(config.mongoUri)
     console.error('MongoDB connection error:', error);
   });
 
-// API ROUTES
-  // assets-router to serve specific assets 
-  app.use("/assets", assetsRouter);
-  // question router to handle question-related requests
-  app.use("/api", questionRouter);
+// Middleware for assets
+app.use('/assets', assetsRouter); // Serve specific assets
 
+// Set up API routes
+app.use('/api/users', userRoutes); // User-related routes
+app.use('/api/questions', questionRoutes); // Question-related routes
 
-  // serve production files from the dist folder when root URL (/) is accessed (everything in public folder gets 'generated' in dist when launching app by React automatically)
-  app.use("/", express.static(path.join(__dirname, "../client/dist")));
+// Serve production files from the dist folder for the root URL (/)
+app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-  // catch-all route
-  app.get("/*", (_req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-  });
+// Default route to check if the server is running
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the User application.' });
+});
 
-  
-// starts the server
-app.listen(config.port, (err) => { // starts server on port specified in ./config/config.js
+// Catch-all route for serving React's index.html
+app.get('/*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
+
+// Start the server
+app.listen(config.port, (err) => {
   if (err) {
-    console.log(err); // logs errors if any
+    console.error(err); // Log any errors that occur
+  } else {
+    console.info('Server started on port %s.', config.port); // Log server startup info
   }
-  console.info('Server started on port %s.', config.port); // Log server startup info
 });

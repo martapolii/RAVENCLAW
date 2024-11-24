@@ -1,4 +1,4 @@
-//const mongoose = require('mongoose');
+ 
 import mongoose from 'mongoose'; // use import/export syntax
 const Schema = mongoose.Schema;
 

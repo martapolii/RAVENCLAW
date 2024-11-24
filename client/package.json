@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "vite",
     "dev": "concurrently \"vite\" \"nodemon ../server/server.js\"",
-    "predeploy": "npm run build", 
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "react": "^18.3.1",

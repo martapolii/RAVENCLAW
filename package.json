@@ -12,10 +12,12 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "babel-loader": "^9.2.1",
+    "concurrently": "^9.1.0",
     "gh-pages": "^6.2.0",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "compression": "^1.7.5",
     "cookie-parser": "^1.4.7",
@@ -24,15 +26,16 @@
     "express": "^4.21.1",
     "global": "^4.4.0",
     "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2",
     "react-router-dom": "^6.28.0"
   },
   "scripts": {
     "start": "concurrently \"npm run dev\" \"cd client && npm start\"",
     "dev": "nodemon server/server.js",
-    "build": "vite build",
+    "build": "cd client && npm run build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "cd client && npm run preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d client/dist"
   }
