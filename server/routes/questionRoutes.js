@@ -1,6 +1,7 @@
-const express = require('express');
-const { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion } = require('../controllers/questionController');
-const { protect, admin } = require('../utils/auth');
+import express from 'express';
+import { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion } from '../controllers/questionController.js';
+import { protect, admin } from '../utils/auth.js';
+
 const router = express.Router();
 
 // gets all questions
@@ -18,4 +19,4 @@ router.put('/:id', protect, admin, updateQuestion);
 // deletes a question by ID (protected, admin only)
 router.delete('/:id', protect, admin, deleteQuestion);
 
-module.exports = router;
+export default router;
