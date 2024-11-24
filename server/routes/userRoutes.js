@@ -1,7 +1,6 @@
-// imports express and necessary modules
-const express = require('express');
-const { registerUser, loginUser, getUser, updateUser, deleteUser } = require('../controllers/userController');
-const { protect } = require('../utils/auth');
+import express from 'express';
+import { registerUser, loginUser, getUser, updateUser, deleteUser } from '../controllers/userController.js';
+import { protect } from '../utils/auth.js';
 
 // initializes router
 const router = express.Router();
@@ -22,4 +21,4 @@ router.put('/:id', protect, updateUser);
 router.delete('/:id', protect, deleteUser);
 
 // exports the router
-module.exports = router;
+export default router;
