@@ -7,6 +7,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
 import assetsRouter from "./routes/assets-router.js"; // import assets-router
+import questionRouter from "./routes/questionRoutes.js"; // import question-router
 
 // get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -24,16 +25,20 @@ mongoose.connect(config.mongoUri)
     console.error('MongoDB connection error:', error);
   });
 
-// assets-router to serve specific assets 
-app.use("/assets", assetsRouter);
+// API ROUTES
+  // assets-router to serve specific assets 
+  app.use("/assets", assetsRouter);
+  // question router to handle question-related requests
+  app.use("/api", questionRouter);
 
-// serve production files from the dist folder when root URL (/) is accessed (everything in public folder gets 'generated' in dist when launching app by React automatically)
-app.use("/", express.static(path.join(__dirname, "../client/dist")));
 
-// catch-all route
-app.get("/*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-});
+  // serve production files from the dist folder when root URL (/) is accessed (everything in public folder gets 'generated' in dist when launching app by React automatically)
+  app.use("/", express.static(path.join(__dirname, "../client/dist")));
+
+  // catch-all route
+  app.get("/*", (_req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  });
 
   
 // starts the server
