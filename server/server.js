@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize express app
-const app = express();
+//const app = express(); - error: "identifier 'app' has already been declared"
 
 //mongodb connection
 mongoose.connect(config.mongoUri)
