@@ -1,25 +1,28 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import User from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // registers a new user
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
+    // Logic to register a user
 };
 
 // logs in a user
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
+    // Logic to log in a user
 };
 
 // gets user details
-const getUser = async (req, res) => {
+export const getUser = async (req, res) => {
+    // Logic to get user details
 };
 
 // updates user details
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
+    // Logic to update user details
 };
 
 // deletes a user
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
+    // Logic to delete a user
 };
-
-module.exports = { registerUser, loginUser, getUser, updateUser, deleteUser };

@@ -1,23 +1,26 @@
-const TriviaQuestion = require('../models/TriviaQuestion');
+import TriviaQuestion from '../models/trivia_questions.model.js';
 
 // fetches all trivia questions
-const getQuestions = async (req, res) => {
+export const getQuestions = async (req, res) => {
+    // Logic here
 };
 
 // fetches a specific question by ID
-const getQuestion = async (req, res) => {
+export const getQuestion = async (req, res) => {
+    // Logic here
 };
 
 // adds a new trivia question
-const createQuestion = async (req, res) => {
+export const createQuestion = async (req, res) => {
+    // Logic here
 };
 
 // updates an existing trivia question
-const updateQuestion = async (req, res) => {
+export const updateQuestion = async (req, res) => {
+    // Logic here
 };
 
 // deletes a trivia question
-const deleteQuestion = async (req, res) => {
+export const deleteQuestion = async (req, res) => {
+    // Logic here
 };
-
-module.exports = { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion };

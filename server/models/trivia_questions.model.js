@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-const triviaQuestionSchema = new Schema({
+const triviaQuestionSchema = new mongoose.Schema({
   question: {
     type: String,
     required: true,
@@ -18,4 +17,4 @@ const triviaQuestionSchema = new Schema({
 
 const TriviaQuestion = mongoose.model('TriviaQuestion', triviaQuestionSchema);
 
-module.exports = TriviaQuestion;
+export default TriviaQuestion;
