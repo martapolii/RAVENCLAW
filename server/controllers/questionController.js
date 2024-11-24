@@ -1,4 +1,4 @@
-const TriviaQuestion = require('../models/TriviaQuestion');
+const TriviaQuestion = require('../models/trivia_questions.model');
 
 // fetches all trivia questions
 const getQuestions = async (req, res) => {
