@@ -1,21 +1,22 @@
-const express = require('express');
-const { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion } = require('../controllers/questionController');
-const { protect, admin } = require('../utils/auth');
+import express from 'express';
+import { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion } from '../controllers/questionController.js';
+import { protect, admin } from '../utils/auth.js';
+
 const router = express.Router();
 
 // gets all questions
-router.get('/', getQuestions);
+router.route('/api/triviaquestions').get(getQuestions);
 
 // gets a question by ID
-router.get('/:id', getQuestion);
+router.get('/api/:id', getQuestion);
 
 // creates a new question (protected, admin only)
-router.post('/', protect, admin, createQuestion);
+router.post('/api', protect, admin, createQuestion);
 
 // updates a question by ID (protected, admin only)
-router.put('/:id', protect, admin, updateQuestion);
+router.put('/api/:id', protect, admin, updateQuestion);
 
 // deletes a question by ID (protected, admin only)
-router.delete('/:id', protect, admin, deleteQuestion);
+router.delete('/api/:id', protect, admin, deleteQuestion);
 
-module.exports = router;
+export default router;

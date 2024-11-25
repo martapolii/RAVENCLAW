@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+ 
+import mongoose from 'mongoose'; // use import/export syntax
 const Schema = mongoose.Schema;
 
 const triviaQuestionSchema = new Schema({
@@ -16,6 +17,7 @@ const triviaQuestionSchema = new Schema({
   },
 });
 
-const TriviaQuestion = mongoose.model('TriviaQuestion', triviaQuestionSchema);
+//const TriviaQuestion = mongoose.model('TriviaQuestion', triviaQuestionSchema);
+//module.exports = TriviaQuestion;
 
-module.exports = TriviaQuestion;
+export default mongoose.model('TriviaQuestion', triviaQuestionSchema); // use import/export syntax

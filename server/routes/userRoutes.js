@@ -1,25 +1,22 @@
-// imports express and necessary modules
-const express = require('express');
-const { registerUser, loginUser, getUser, updateUser, deleteUser } = require('../controllers/userController');
-const { protect } = require('../utils/auth');
+import express from 'express';
+import { registerUser, loginUser, getUser, updateUser, deleteUser } from '../controllers/userController.js';
+import { protect, admin } from '../utils/auth.js';
 
-// initializes router
 const router = express.Router();
 
-// user registration
+// Route to register a new user
 router.post('/register', registerUser);
 
-// user login
+// Route to log in a user
 router.post('/login', loginUser);
 
-// gets user by ID (protected)
+// Route to fetch user details (protected)
 router.get('/:id', protect, getUser);
 
-// updates user by ID (protected)
+// Route to update user details (protected)
 router.put('/:id', protect, updateUser);
 
-// deletes user by ID (protected)
-router.delete('/:id', protect, deleteUser);
+// Route to delete a user (admin only)
+router.delete('/:id', protect, admin, deleteUser);
 
-// exports the router
-module.exports = router;
+export default router;
