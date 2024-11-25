@@ -2,27 +2,138 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// registers a new user
+// Registers a new user
 export const registerUser = async (req, res) => {
-    // Logic to register a user
+    try {
+        const { username, email, password } = req.body;
+
+        // Validate input
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: 'Username, email, and password are required' });
+        }
+
+        // Check if the username or email already exists
+        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username or email already exists' });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create and save the user
+        const user = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        await user.save();
+
+        // Generate a token
+        const token = jwt.sign(
+            { id: user._id, email: user.email, username: user.username },
+            process.env.JWT_SECRET || 'defaultsecret',
+            { expiresIn: '1h' }
+        );
+
+        res.status(201).json({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            token,
+        });
+    } catch (error) {
+        console.error('Error in registerUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
-// logs in a user
+// Logs in a user
 export const loginUser = async (req, res) => {
-    // Logic to log in a user
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email, username: user.username },
+            process.env.JWT_SECRET || 'defaultsecret',
+            { expiresIn: '1h' }
+        );
+
+        res.status(200).json({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            token,
+        });
+    } catch (error) {
+        console.error('Error in loginUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
-// gets user details
+// Fetches user details
 export const getUser = async (req, res) => {
-    // Logic to get user details
+    try {
+        const { id } = req.params;
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error in getUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
-// updates user details
+// Updates user details
 export const updateUser = async (req, res) => {
-    // Logic to update user details
+    try {
+        const { id } = req.params;
+        const { username, email } = req.body;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { username, email },
+            { new: true }
+        );
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error('Error in updateUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
-// deletes a user
+// Deletes a user
 export const deleteUser = async (req, res) => {
-    // Logic to delete a user
+    try {
+        const { id } = req.params;
+
+        const user = await User.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error in deleteUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
