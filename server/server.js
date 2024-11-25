@@ -19,6 +19,10 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 // Initialize express app
 const app = express();
 
+// Add middleware to parse JSON and URL-encoded request bodies
+app.use(express.json()); // Parses JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
+
 // MongoDB connection
 mongoose.connect(config.mongoUri)
   .then(() => {

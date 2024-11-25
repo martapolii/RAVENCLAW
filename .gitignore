@@ -1,9 +1,24 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-=======
-# should have environmental variables file listed in here
+node_modules
+#dist
+#dist-ssr
+*.local
 
-# Ignore the .env file to keep sensitive information out of version control
-.env
-# Ignore node_modules
-node_modules/
->>>>>>> e103f19c6655d2c20bba47aaf07f0d99874d6f64
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
