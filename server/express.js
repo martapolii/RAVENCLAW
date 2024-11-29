@@ -10,6 +10,8 @@ import helmet from 'helmet'
 const app = express()
 
 // Configure modules
+app.use(express.json()); // for parsing incomng requests with JSON payloads
+app.use(express.urlencoded({ extended: true })); // for parsing incoming requests with URL-encoded payloads
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
