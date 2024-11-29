@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../css/AdminQuestions.css'; //imported css file
 
 const AdminQuestions = () => {
   const [questions, setQuestions] = useState([]);
@@ -52,32 +53,36 @@ const AdminQuestions = () => {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Admin - Manage Trivia Questions</h2>
-      <div>
-        <input
-          type="text"
-          value={newQuestion}
-          onChange={(e) => setNewQuestion(e.target.value)}
-          placeholder="Enter new question"
-        />
-        <input
-          type="text"
-          value={newAnswer}
-          onChange={(e) => setNewAnswer(e.target.value)}
-          placeholder="Enter correct answer"
-        />
-        <button onClick={addQuestion}>Add Question</button>
-      </div>
-      <ul>
-        {questions.map((q) => (
-          <li key={q._id}>
-            <strong>{q.question}</strong> - {q.correctAnswer}
-            <button onClick={() => deleteQuestion(q._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className="container">
+    <h2 className="header">Admin - Manage Trivia Questions</h2>
+    <div className="input-group">
+      <input
+        type="text"
+        value={newQuestion}
+        onChange={(e) => setNewQuestion(e.target.value)}
+        placeholder="Enter new question"
+      />
+      <input
+        type="text"
+        value={newAnswer}
+        onChange={(e) => setNewAnswer(e.target.value)}
+        placeholder="Enter correct answer"
+      />
+      <button className="button" onClick={addQuestion}>
+        Add Question
+      </button>
     </div>
+    <ul className="question-list">
+      {questions.map((q) => (
+        <li key={q._id} className="question-item">
+          <strong>{q.question}</strong> - {q.correctAnswer}
+          <button className="button" onClick={() => deleteQuestion(q._id)}>
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 };
 

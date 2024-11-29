@@ -1,0 +1,81 @@
+/* AdminQuestions.css */
+.header {
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  color: #946b2b; /* Bronze Ravenclaw color */
+  margin-bottom: 20px; 
+  text-align: center; 
+}
+
+.container {
+  padding: 20px;
+  background-color: #0e1a40; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  max-width: 600px; /* Center and constrain the width */
+  margin: 20px auto 20px auto; /* Add top margin for space below navbar - trying to make it consistent throughout */
+  text-align: center; 
+}
+
+.question-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.question-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem; /* Slightly larger font for readability */
+}
+
+.input-group {
+  margin-bottom: 20px; /* Consistent spacing */
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 12px; /* Slightly larger padding for comfort */
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Subtle border for inputs */
+  border-radius: 5px; /* Rounded corners for inputs */
+}
+
+.button {
+  padding: 12px 24px; /* Larger padding for buttons */
+  font-size: 1.1rem; /* Match button font size with GamePlay */
+  background-color: white;
+  color: #946b2b;
+  border: none;
+  border-radius: 5px; /* Rounded corners for buttons */
+  margin-top: 20px; /*Same size as Login Button spacing */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.score-container {
+  margin-top: 20px;
+  font-size: 1.1rem; /* Consistent with GamePlay */
+  text-align: center; /* Center-align the score section */
+}
+
+.next-button {
+  padding: 12px 24px; /* Consistent with the primary buttons */
+  font-size: 1.1rem;
+  background-color: #0e1a40; /* Match with GamePlay next button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: #0c152d; /* Darker shade on hover */
+}
