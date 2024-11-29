@@ -2,6 +2,17 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// Fetches all users
+export const getUsers = async (_req, res) => {
+    try {
+        const users = await User.find().select('username email password role');
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Error in getUsers:', error.message);
+        res.status(500).json({ message: 'Server error'});
+    }
+};
+
 // Registers a new user
 export const registerUser = async (req, res) => {
     try {
@@ -136,4 +147,9 @@ export const deleteUser = async (req, res) => {
         console.error('Error in deleteUser:', error.message);
         res.status(500).json({ message: 'Server error', error: error.message });
     }
+};
+
+// Signs out a user 
+export const signoutUser = async (_req, res) => {
+    res.status(200).json({ message: 'User signed out successfully' });
 };
