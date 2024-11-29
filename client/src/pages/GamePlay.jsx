@@ -57,7 +57,7 @@ const GamePlay = () => {
 
   return (
     <div className="gameplay-container" style={gameplayContainerStyle}>
-      <h2>Harry Potter Trivia</h2>
+      <h2 style={headerStyle}>Harry Potter Trivia</h2>
       <p style={questionStyle}>
         {questions[currentQuestionIndex].question}
       </p>
@@ -101,8 +101,14 @@ const gameplayContainerStyle = {
   borderRadius: "8px",
   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
   maxWidth: "600px",
-  margin: "auto",
+  margin: '20px auto',
   textAlign: "center",
+};
+
+const headerStyle = { // Added this to make the color scheme between GamePlay and UserProfile consistent - T
+  color: '#0e1a40', 
+  fontSize: '2rem',
+  marginBottom: '20px',
 };
 
 const questionStyle = {
