@@ -33,17 +33,11 @@ export const createQuestion = async (req, res) => {
     try {
         const { question, options, correctAnswer } = req.body;
 
-        // Validate input
-        if (!question || !options || !correctAnswer) {
-            return res.status(400).json({ message: 'All fields are required' });
+        if (!question || !Array.isArray(options) || options.length < 2 || correctAnswer === undefined) {
+            return res.status(400).json({ message: 'Invalid input: All fields are required, and options must be an array with at least two items.' });
         }
 
-        const newQuestion = new TriviaQuestion({
-            question,
-            options,
-            correctAnswer
-        });
-
+        const newQuestion = new TriviaQuestion({ question, options, correctAnswer });
         await newQuestion.save();
         res.status(201).json(newQuestion);
     } catch (error) {
