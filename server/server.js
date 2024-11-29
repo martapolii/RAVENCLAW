@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'; // import fileURLToPath for ES module compa
 import assetsRouter from './routes/assets-router.js'; // import assets-router
 import userRoutes from './routes/userRoutes.js'; // import user routes
 import questionRoutes from './routes/questionRoutes.js'; // import question routes
+import authRoutes from './routes/auth.routes.js'; // import auth routes
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -38,6 +39,7 @@ app.use('/assets', assetsRouter); // Serve specific assets
 // Set up API routes
 app.use('/api/users', userRoutes); // User-related routes
 app.use('/api/questions', questionRoutes); // Question-related routes
+app.use('/api/auth', authRoutes); // Authentication routes
 
 // Serve production files from the dist folder for the root URL (/)
 app.use('/', express.static(path.join(__dirname, '../client/dist')));

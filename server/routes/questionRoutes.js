@@ -1,6 +1,6 @@
 import express from 'express';
 import { getQuestions, getQuestion, createQuestion, updateQuestion, deleteQuestion } from '../controllers/questionController.js';
-import { requireSignin, hasAuthorization, admin } from '../utils/auth.js';
+import { requireSignin, hasAuthorization, admin } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 

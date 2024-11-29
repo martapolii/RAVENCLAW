@@ -1,7 +1,6 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import config from '../../config/config.js';
 
 // Fetches all users
 export const getUsers = async (_req, res) => {
@@ -62,38 +61,6 @@ export const registerUser = async (req, res) => {
     }
 };
 
-// Logs in a user
-export const loginUser = async (req, res) => {
-    try {
-        const { email, password } = req.body; //POST request object recieves email + password
-
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' });
-        }
-
-        const user = await User.findOne({ email }); // retrieves matching user 
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
-
-        const token = jwt.sign(
-            { id: user._id, email: user.email, username: user.username },
-            config.JWT_SECRET)
-            res.cookie('t', token, { expire: new Date() + 9999 }) 
-            return res.json({ 
-                token, 
-                user: { 
-                    id: user._id,
-                    username: user.username,
-                    email: user.email,
-                } 
-            })
-    } catch (error) {
-        console.error('Error in loginUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
-
 // Fetches user details
 export const getUser = async (req, res) => {
     try {
@@ -150,13 +117,7 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-// Signs out a user - GET request that clears the cookie
-export const signoutUser = async (_req, res) => {
-    res.clearCookie("t")
-    return res.status('200').json({ 
-    message: "Signed out successfully"
-}) 
-};
+
 
 
     
