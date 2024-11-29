@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -36,7 +37,6 @@ userSchema.virtual("password")
     // salt generation logic
     this._password = password;
     this.salt = this.makeSalt();
-    //this.hashedPassword = password;
     this.hashedPassword = this.encryptPassword(password);
   })
   .get(function () {
