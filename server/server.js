@@ -25,6 +25,7 @@ app.use(express.json()); // Parses JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
 app.use(cookieParser()); // pasrse cookies
 
+
 // MongoDB connection
 mongoose.connect(config.mongoUri)
   .then(() => {
