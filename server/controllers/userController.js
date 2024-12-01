@@ -61,6 +61,45 @@ export const registerUser = async (req, res) => {
     }
 };
 
+// Logs in a user
+export const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email, username: user.username },
+            process.env.JWT_SECRET || 'defaultsecret',
+            { expiresIn: '1h' }
+        );
+
+        // set token in a cookie to it can be cleared on sign out
+        res.cookie('authCookie', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 3600000, // 1hr
+        })
+
+        res.status(200).json({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            token,
+        });
+    } catch (error) {
+        console.error('Error in loginUser:', error.message);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
 // Fetches user details
 export const getUser = async (req, res) => {
     try {
@@ -117,8 +156,12 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-
-
-
-    
- 
+// Signs out a user 
+export const signoutUser = async (_req, res) => {
+    // need to clear cookie used in sign in
+    res.clearCookie('authToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    });
+    res.status(200).json({ message: 'User signed out successfully' });
+};
