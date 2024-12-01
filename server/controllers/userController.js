@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // Fetches all users
 export const getUsers = async (_req, res) => {
     try {
-        const users = await User.find().select('username email password role');
+        const users = await User.find().select('username email role');
         res.status(200).json(users);
     } catch (error) {
         console.error('Error in getUsers:', error.message);
@@ -81,8 +81,7 @@ export const loginUser = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        // set token in a cookie to it can be cleared on sign out
-        res.cookie('authCookie', token, {
+        res.cookie('authCookie', token, { // set token in a cookie to it can be cleared on sign out
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 3600000, // 1hr
@@ -92,7 +91,7 @@ export const loginUser = async (req, res) => {
             id: user._id,
             username: user.username,
             email: user.email,
-            token,
+            //token, - no need bc stored in cookie now
         });
     } catch (error) {
         console.error('Error in loginUser:', error.message);
@@ -121,11 +120,17 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { username, email } = req.body;
+        const { username, email, password } = req.body; // added password 
 
+        const updateData = { username, email }; // store update data in object
+
+        if (password) { // if password is provided, hash it and add to update data object
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { username, email },
+            updateData,
             { new: true }
         );
         if (!updatedUser) {
@@ -159,7 +164,7 @@ export const deleteUser = async (req, res) => {
 // Signs out a user 
 export const signoutUser = async (_req, res) => {
     // need to clear cookie used in sign in
-    res.clearCookie('authToken', {
+    res.clearCookie('authCookie', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
     });
