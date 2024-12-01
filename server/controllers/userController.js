@@ -29,15 +29,11 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'Username or email already exists' });
         }
 
-        // Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
         // Create and save the user
         const user = new User({
             username,
             email,
-            password: hashedPassword,
+            password,
         });
 
         await user.save();
@@ -70,27 +66,34 @@ export const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        const user = await User.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        const user = await User.findOne({ email }); // find user by email
+        if (!user) { 
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
+        // use comparePassword logic from the userr model
+        const isAuthenticated = await user.comparePassword(password); //will compare password to hashed password (was giving me issues before because I was trying to log in with an un-hashed password)
+        if (!isAuthenticated) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        // generate a token
         const token = jwt.sign(
-            { id: user._id, email: user.email, username: user.username },
+            { id: user._id, email: user.email, username: user.username, role: user.role },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
 
-        res.cookie('authCookie', token, { // set token in a cookie to it can be cleared on sign out
+        res.cookie('authCookie', token, { // set token in a cookie so it can be cleared on sign out
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 3600000, // 1hr
         })
 
-        res.status(200).json({
+        res.status(200).json({ // respond w user details
             id: user._id,
             username: user.username,
             email: user.email,
+            role: user.role,
             //token, - no need bc stored in cookie now
         });
     } catch (error) {
