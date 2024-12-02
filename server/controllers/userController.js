@@ -16,7 +16,7 @@ export const getUsers = async (_req, res) => {
 // Registers a new user
 export const registerUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password, role } = req.body; //added role or else can't create admin user
 
         // Validate input
         if (!username || !email || !password) {
@@ -34,13 +34,14 @@ export const registerUser = async (req, res) => {
             username,
             email,
             password,
+            role: role || 'user', // set role to user if not provided, so you can make admin users, and it doesnt just default to user every time
         });
 
         await user.save();
 
         // Generate a token
         const token = jwt.sign(
-            { id: user._id, email: user.email, username: user.username },
+            { id: user._id, email: user.email, username: user.username, role: user.role },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
@@ -49,6 +50,7 @@ export const registerUser = async (req, res) => {
             id: user._id,
             username: user.username,
             email: user.email,
+            role: user.role,
             token,
         });
     } catch (error) {
