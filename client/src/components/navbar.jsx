@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/navbar.css';
+import logo from '../../public/assets/logo.png';
 
 const Navbar = () => {
   return (
     <nav>
+      <div>
+        {/* logo */}
+        <Link to="/">
+          <img src={logo} alt="logo" />
+        </Link>
+      </div>
       <ul style={{ display: 'flex', listStyleType: 'none', gap: '20px' }}>
         <li><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Home</Link></li>
         <li><Link to="/login" style={{ color: 'black', textDecoration: 'none' }}>Login</Link></li>
