@@ -109,6 +109,11 @@ export const getUser = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // added to check if user is feteching their own account or if they are an admin, otherwise regualar users can fetch details for any account
+        if (req.user.role !== 'admin' && req.user.id !== id) {
+            return res.status(403).json({ message: 'Not authorized to see user details' });
+        }
+
         const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -126,6 +131,11 @@ export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { username, email, password } = req.body; // added password 
+
+        // added to check if user is upating their own account or if they are an admin, otherwise regualar users can update any account
+        if (req.user.role !== 'admin' && req.user.id !== id) {
+            return res.status(403).json({ message: 'Not authorized to update user' });
+        }
 
         const updateData = { username, email }; // store update data in object
 
@@ -154,6 +164,11 @@ export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
 
+         // added to check if user is deleting their own account or if they are an admin, otherwise regualar users can delete any account
+        if (req.user.role !== 'admin' && req.user.id !== id) {
+            return res.status(403).json({ message: 'Not authorized to delete user' });
+        }
+
         const user = await User.findByIdAndDelete(id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -169,6 +184,7 @@ export const deleteUser = async (req, res) => {
 // Signs out a user 
 export const signoutUser = async (_req, res) => {
     // need to clear cookie used in sign in
+
     res.clearCookie('authCookie', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
