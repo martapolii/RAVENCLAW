@@ -4,19 +4,19 @@ import { protect, admin } from '../utils/auth.js';
 
 const router = express.Router();
 
-// gets all questions
-router.route('/api/triviaquestions').get(getQuestions);
+// Gets all questions
+router.get('/', getQuestions);
 
-// gets a question by ID
-router.get('/api/:id', getQuestion);
+// Gets a question by ID
+router.get('/:id', getQuestion);
 
-// creates a new question (protected, admin only)
-router.post('/api', protect, admin, createQuestion);
+// Creates a new question (protected, admin only)
+router.post('/', protect, admin, createQuestion);
 
-// updates a question by ID (protected, admin only)
-router.put('/api/:id', protect, admin, updateQuestion);
+// Updates a question by ID (protected, admin only)
+router.put('/:id', protect, admin, updateQuestion);
 
-// deletes a question by ID (protected, admin only)
-router.delete('/api/:id', protect, admin, deleteQuestion);
+// Deletes a question by ID (protected, admin only)
+router.delete('/:id', protect, admin, deleteQuestion);
 
 export default router;

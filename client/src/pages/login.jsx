@@ -3,12 +3,44 @@ import React, { useState } from 'react';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // added backend-frontend integration
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Need to do some updating here for deliverable 3 
-    alert('Login successful!');
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError(null);
+
+  try {
+    // backend URL from env
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
+    //  POST request to the backend login api endpoiint
+    const response = await fetch(`${backendUrl}/api/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }), 
+    });
+
+    if (!response.ok) {
+      throw new Error('Invalid credentials');
+    }
+    const data = await response.json();
+    const { token } = data;
+    localStorage.setItem('token', token); // save token
+
+    // redirect user after login
+    window.location.href = '/user-profile';
+  } catch (error) {
+    setError('Login failed. Please check your email and password.');
+    console.error('Error during login:', error);
+  } finally {
+    setIsLoading(false); 
+  }
+};
 
   const pageStyles = {
     backgroundColor: '#0e1a40', // Ravenclaw blue
@@ -18,7 +50,8 @@ const Login = () => {
     padding: '40px',
     borderRadius: '10px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-    marginTop: '50px',
+    margin: '20px auto', // Ensures same margin as Register page
+    maxWidth: '800px', // Limits the width to match the Register page
   };
 
   const formStyles = {
@@ -45,8 +78,8 @@ const Login = () => {
   };
 
   const buttonStyles = {
-    backgroundColor: '#white', // Silver button
-    color: '#946b2b', // Dark blue text
+    backgroundColor: '#ffffff', // Silver button
+    color: '#0e1a40', // Dark blue text
     padding: '15px 30px',
     fontSize: '1.2em',
     border: 'none',
@@ -65,13 +98,16 @@ const Login = () => {
       <h1>Ravenclaw Login</h1>
       <p>Welcome back, fellow Ravenclaw. Enter your credentials to begin!</p>
 
+      {error && <p style={errorStyle}>{error}</p>}
+
       <form style={formStyles} onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={inputStyles}
+          required
         />
         <input
           type="password"
@@ -79,17 +115,25 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={inputStyles}
+          required
         />
         <button
           type="submit"
           style={buttonStyles}
-          onMouseOver={(e) => e.target.style.backgroundColor = buttonHoverStyles.backgroundColor}
-          onMouseOut={(e) => e.target.style.backgroundColor = buttonStyles.backgroundColor}
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = buttonHoverStyles.backgroundColor;
+            e.target.style.color = buttonHoverStyles.color;
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = buttonStyles.backgroundColor;
+            e.target.style.color = buttonStyles.color;
+          }}
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
-    </div>
+      </div>
   );
 };
 

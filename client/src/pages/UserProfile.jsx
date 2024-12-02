@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
-  
   const [userInfo, setUserInfo] = useState({
     name: 'Harry Potter',
     email: 'harry.potter@example.com',
-    score: 50, 
+    score: 50,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    
     const fetchedUserInfo = {
       name: 'Harry Potter',
       email: 'harry.potter@example.com',
@@ -18,19 +19,18 @@ const UserProfile = () => {
     setUserInfo(fetchedUserInfo);
   }, []);
 
-  
   const profileContainerStyle = {
-    backgroundColor: '#f0f4f8',
+    backgroundColor: '#f4f4f9',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     maxWidth: '600px',
-    margin: 'auto',
+    margin: '20px auto',
     textAlign: 'center',
   };
 
   const headerStyle = {
-    color: '#0e1a40', 
+    color: '#0e1a40',
     fontSize: '2rem',
     marginBottom: '20px',
   };
@@ -58,22 +58,22 @@ const UserProfile = () => {
 
   const editButtonStyle = {
     ...buttonStyle,
-    backgroundColor: '#1f2a59', 
+    backgroundColor: '#1f2a59',
     color: 'white',
   };
 
   const logoutButtonStyle = {
     ...buttonStyle,
-    backgroundColor: '#d9534f', 
+    backgroundColor: '#d9534f',
     color: 'white',
   };
 
   const editButtonHoverStyle = {
-    backgroundColor: '#0e1a40', 
+    backgroundColor: '#0e1a40',
   };
 
   const logoutButtonHoverStyle = {
-    backgroundColor: '#c9302c', 
+    backgroundColor: '#c9302c',
   };
 
   return (
@@ -95,7 +95,7 @@ const UserProfile = () => {
           style={editButtonStyle}
           onMouseOver={(e) => (e.target.style.backgroundColor = editButtonHoverStyle.backgroundColor)}
           onMouseOut={(e) => (e.target.style.backgroundColor = editButtonStyle.backgroundColor)}
-          onClick={() => alert('Edit Profile functionality')}
+          onClick={() => navigate('/admin-users')}
         >
           Edit Profile
         </button>
@@ -113,4 +113,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-

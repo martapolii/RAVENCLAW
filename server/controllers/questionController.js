@@ -1,93 +1,91 @@
-import TriviaQuestion from '../models/trivia_questions.model.js';
+import TriviaQuestion from '../models/trivia_questions.model.js'; // Ensure correct path
 
-// Fetches all trivia questions
+// Fetch all questions
 export const getQuestions = async (req, res) => {
-    try {
-        const questions = await TriviaQuestion.find();
-        res.status(200).json(questions);
-    } catch (error) {
-        console.error('Error fetching questions:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+  try {
+    const questions = await TriviaQuestion.find(); // Fetch all questions from the trivia_questions collection
+
+    if (questions.length === 0) {
+      console.log('No questions found in the database.');
     }
+
+    res.json(questions); // Return the questions as JSON
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    res.status(500).json({ message: 'Error fetching questions', error: error.message });
+  }
 };
 
-// Fetches a specific question by ID
+// Fetch a question by ID
 export const getQuestion = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const question = await TriviaQuestion.findById(req.params.id);
 
-        const question = await TriviaQuestion.findById(id);
-        if (!question) {
-            return res.status(404).json({ message: 'Question not found' });
-        }
-
-        res.status(200).json(question);
-    } catch (error) {
-        console.error('Error fetching question:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+    if (!question) {
+      return res.status(404).json({ message: 'Question not found' });
     }
+
+    res.json(question);
+  } catch (error) {
+    console.error('Error fetching question:', error);
+    res.status(500).json({ message: 'Error fetching question', error: error.message });
+  }
 };
 
-// Adds a new trivia question
+// Create a new question
 export const createQuestion = async (req, res) => {
-    try {
-        const { question, options, correctAnswer } = req.body;
+  try {
+    const { question, options, correctAnswer } = req.body;
 
-        // Validate input
-        if (!question || !options || !correctAnswer) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
+    const newQuestion = new TriviaQuestion({
+      question,
+      options,
+      correctAnswer,
+    });
 
-        const newQuestion = new TriviaQuestion({
-            question,
-            options,
-            correctAnswer
-        });
+    await newQuestion.save();
 
-        await newQuestion.save();
-        res.status(201).json(newQuestion);
-    } catch (error) {
-        console.error('Error creating question:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
-    }
+    res.status(201).json(newQuestion);
+  } catch (error) {
+    console.error('Error creating question:', error);
+    res.status(500).json({ message: 'Error creating question', error: error.message });
+  }
 };
 
-// Updates an existing trivia question
+// Update a question by ID
 export const updateQuestion = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { question, options, correctAnswer } = req.body;
+  try {
+    const { question, options, correctAnswer } = req.body;
 
-        const updatedQuestion = await TriviaQuestion.findByIdAndUpdate(
-            id,
-            { question, options, correctAnswer },
-            { new: true }
-        );
+    const updatedQuestion = await TriviaQuestion.findByIdAndUpdate(
+      req.params.id,
+      { question, options, correctAnswer },
+      { new: true }
+    );
 
-        if (!updatedQuestion) {
-            return res.status(404).json({ message: 'Question not found' });
-        }
-
-        res.status(200).json(updatedQuestion);
-    } catch (error) {
-        console.error('Error updating question:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+    if (!updatedQuestion) {
+      return res.status(404).json({ message: 'Question not found' });
     }
+
+    res.json(updatedQuestion);
+  } catch (error) {
+    console.error('Error updating question:', error);
+    res.status(500).json({ message: 'Error updating question', error: error.message });
+  }
 };
 
-// Deletes a trivia question
+// Delete a question by ID
 export const deleteQuestion = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const deletedQuestion = await TriviaQuestion.findByIdAndDelete(req.params.id);
 
-        const deletedQuestion = await TriviaQuestion.findByIdAndDelete(id);
-        if (!deletedQuestion) {
-            return res.status(404).json({ message: 'Question not found' });
-        }
-
-        res.status(204).send(); // No Content
-    } catch (error) {
-        console.error('Error deleting question:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+    if (!deletedQuestion) {
+      return res.status(404).json({ message: 'Question not found' });
     }
+
+    res.json({ message: 'Question deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting question:', error);
+    res.status(500).json({ message: 'Error deleting question', error: error.message });
+  }
 };

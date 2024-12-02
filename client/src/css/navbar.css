@@ -1,6 +1,7 @@
 nav {
     background-color: #0e1a40; /* Raven Claw Dark blue background */
     padding: 10px;
+    display: flex;
 }
 
 nav ul li a {
@@ -10,5 +11,16 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
+    text-decoration:underline !important; /* wasn't working bc of conflicting css somewhere else, so added !important */
+    color: #c0a16b;
+}
+
+nav img{
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+}
+
+.active {
+    color: #c0a16b !important; /* highlight active link */
 }

@@ -1,142 +1,88 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import '../css/AdminQuestions.css'; //imported css file
 
 const AdminQuestions = () => {
-  
-  const [questions, setQuestions] = useState([
-    { id: 1, question: 'Who is known as the Boy Who Lived?', answer: 'Harry Potter' },
-    { id: 2, question: 'What house is Harry Potter sorted into?', answer: 'Gryffindor' },
-    { id: 3, question: 'Who was the headmaster of Hogwarts during Harry Potter\'s first year?', answer: 'Albus Dumbledore' },
-  ]);
-  
+  const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
 
-  
-  const addQuestion = () => {
+  // Fetch questions from the backend
+  const fetchQuestions = async () => {
+    try {
+      const response = await fetch('/api/questions');
+      const data = await response.json();
+      setQuestions(data);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    }
+  };
+
+  // Add a new question
+  const addQuestion = async () => {
     if (!newQuestion || !newAnswer) {
       alert('Both question and answer are required!');
       return;
     }
-    const newQ = {
-      id: questions.length + 1,
-      question: newQuestion,
-      answer: newAnswer,
-    };
-    setQuestions([...questions, newQ]);
-    setNewQuestion('');
-    setNewAnswer('');
+    try {
+      const response = await fetch('/api/questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: newQuestion, options: ['Answer'], correctAnswer: newAnswer }),
+      });
+      const addedQuestion = await response.json();
+      setQuestions([...questions, addedQuestion]);
+      setNewQuestion('');
+      setNewAnswer('');
+    } catch (error) {
+      console.error('Error adding question:', error);
+    }
   };
 
-  
-  const deleteQuestion = (id) => {
-    setQuestions(questions.filter((q) => q.id !== id));
+  // Delete a question
+  const deleteQuestion = async (id) => {
+    try {
+      await fetch(`/api/questions/${id}`, { method: 'DELETE' });
+      setQuestions(questions.filter((q) => q._id !== id));
+    } catch (error) {
+      console.error('Error deleting question:', error);
+    }
   };
 
- 
-  const containerStyle = {
-    backgroundColor: '#f4f4f9',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    maxWidth: '800px',
-    margin: '20px auto',
-  };
-
-  const headerStyle = {
-    color: '#0e1a40', 
-    fontSize: '2rem',
-    textAlign: 'center',
-    marginBottom: '20px',
-  };
-
-  const listStyle = {
-    listStyleType: 'none',
-    paddingLeft: '0',
-  };
-
-  const listItemStyle = {
-    backgroundColor: '#ffffff',
-    margin: '10px 0',
-    padding: '15px',
-    borderRadius: '8px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-  };
-
-  const inputStyle = {
-    padding: '10px',
-    margin: '10px 0',
-    width: '80%',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  };
-
-  const buttonStyle = {
-    padding: '10px 20px',
-    borderRadius: '5px',
-    backgroundColor: '#0e1a40', 
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-    marginLeft: '10px',
-  };
-
-  const deleteButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#d9534f', 
-  };
-
-  const addButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#5bc0de', 
-  };
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   return (
-    <div style={containerStyle}>
-      <h2 style={headerStyle}>Admin - Manage Trivia Questions</h2>
-
-   
-      <div>
-        <input
-          type="text"
-          value={newQuestion}
-          onChange={(e) => setNewQuestion(e.target.value)}
-          placeholder="Enter new question"
-          style={inputStyle}
-        />
-        <input
-          type="text"
-          value={newAnswer}
-          onChange={(e) => setNewAnswer(e.target.value)}
-          placeholder="Enter answer"
-          style={inputStyle}
-        />
-        <button onClick={addQuestion} style={addButtonStyle}>
-          Add Question
-        </button>
-      </div>
-
-      
-      <ul style={listStyle}>
-        {questions.map((question) => (
-          <li key={question.id} style={listItemStyle}>
-            <div>
-              <strong>{question.question}</strong>
-              <p>{question.answer}</p>
-            </div>
-            <button
-              style={deleteButtonStyle}
-              onClick={() => deleteQuestion(question.id)}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="container">
+    <h2 className="header">Admin - Manage Trivia Questions</h2>
+    <div className="input-group">
+      <input
+        type="text"
+        value={newQuestion}
+        onChange={(e) => setNewQuestion(e.target.value)}
+        placeholder="Enter new question"
+      />
+      <input
+        type="text"
+        value={newAnswer}
+        onChange={(e) => setNewAnswer(e.target.value)}
+        placeholder="Enter correct answer"
+      />
+      <button className="button" onClick={addQuestion}>
+        Add Question
+      </button>
     </div>
+    <ul className="question-list">
+      {questions.map((q) => (
+        <li key={q._id} className="question-item">
+          <strong>{q.question}</strong> - {q.correctAnswer}
+          <button className="button" onClick={() => deleteQuestion(q._id)}>
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 };
 
