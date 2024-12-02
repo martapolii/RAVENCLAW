@@ -20,4 +20,4 @@ const triviaQuestionSchema = new Schema({
 //const TriviaQuestion = mongoose.model('TriviaQuestion', triviaQuestionSchema);
 //module.exports = TriviaQuestion;
 
-export default mongoose.model('TriviaQuestion', triviaQuestionSchema); // use import/export syntax
+export default mongoose.model('TriviaQuestion', triviaQuestionSchema, 'trivia_questions'); // use import/export syntax

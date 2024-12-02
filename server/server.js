@@ -1,13 +1,14 @@
 // Import modules
-import express from 'express'; // import express module
-import config from './../config/config.js'; // import configuration
-import dotenv from 'dotenv'; // import dotenv for environment variables
-import path from 'path'; // import path module for file and directory paths
-import mongoose from 'mongoose'; // import mongoose for MongoDB connection
-import { fileURLToPath } from 'url'; // import fileURLToPath for ES module compatibility
-import assetsRouter from './routes/assets-router.js'; // import assets-router
-import userRoutes from './routes/userRoutes.js'; // import user routes
-import questionRoutes from './routes/questionRoutes.js'; // import question routes
+import express from 'express';
+import cors from 'cors'; 
+import config from './../config/config.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
+import assetsRouter from './routes/assets-router.js';
+import userRoutes from './routes/userRoutes.js';
+import questionRoutes from './routes/questionRoutes.js';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +19,9 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize express app
 const app = express();
+
+// Enable CORS for all origins (adjust as needed)
+app.use(cors());
 
 // Add middleware to parse JSON and URL-encoded request bodies
 app.use(express.json()); // Parses JSON bodies
@@ -33,11 +37,11 @@ mongoose.connect(config.mongoUri)
   });
 
 // Middleware for assets
-app.use('/assets', assetsRouter); // Serve specific assets
+app.use('/assets', assetsRouter);
 
 // Set up API routes
-app.use('/api/users', userRoutes); // User-related routes
-app.use('/api/questions', questionRoutes); // Question-related routes
+app.use('/api/users', userRoutes);
+app.use('/api/questions', questionRoutes);
 
 // Serve production files from the dist folder for the root URL (/)
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
@@ -55,8 +59,8 @@ app.get('/*', (_req, res) => {
 // Start the server
 app.listen(config.port, (err) => {
   if (err) {
-    console.error(err); // Log any errors that occur
+    console.error(err);
   } else {
-    console.info('Server started on port %s.', config.port); // Log server startup info
+    console.info('Server started on port %s.', config.port);
   }
 });
