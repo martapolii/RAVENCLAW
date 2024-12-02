@@ -12,6 +12,7 @@ const Navbar = () => {
         <li><Link to="/user-profile" style={{ color: 'black', textDecoration: 'none' }}>User Profile</Link></li>
         <li><Link to="/game-play" style={{ color: 'black', textDecoration: 'none' }}>Game Play</Link></li>
         <li><Link to="/admin-questions" style={{ color: 'black', textDecoration: 'none' }}>Admin Questions</Link></li>
+        <li><Link to="/admin-users" style={{ color: 'black', textDecoration: 'none' }}>Edit User Profile</Link></li>
       </ul>
     </nav>
   );
