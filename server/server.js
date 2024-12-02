@@ -1,5 +1,6 @@
 // Import modules
 import express from 'express'; // import express module
+import cors from 'cors'; // import cors for enabling CORS
 import config from './../config/config.js'; // import configuration
 import dotenv from 'dotenv'; // import dotenv for environment variables
 import path from 'path'; // import path module for file and directory paths
@@ -20,11 +21,13 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 // Initialize express app
 const app = express();
 
+// Enable CORS for all origins (adjust as needed)
+app.use(cors());
+
 // Add middleware to parse JSON and URL-encoded request bodies
 app.use(express.json()); // Parses JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
-app.use(cookieParser()); // pasrse cookies
-
+app.use(cookieParser()); // parse cookies
 
 // MongoDB connection
 mongoose.connect(config.mongoUri)
