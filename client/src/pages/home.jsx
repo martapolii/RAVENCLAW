@@ -8,13 +8,15 @@ const Home = () => {
     color: '#946b2b', // White text color
     padding: '40px',
     borderRadius: '10px',
+    margin: '20px auto', // Ensures same margin as each page
+    maxWidth: '800px', // Limits the width to match the Register page
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
     fontFamily: "'Georgia', serif", 
   };
 
   const buttonStyles = {
     backgroundColor: '#white',
-    color: '#946b2b', 
+    color: '#0e1a40', // Ravenclaw blue
     padding: '15px 30px',
     fontSize: '1.2em',
     border: 'none',

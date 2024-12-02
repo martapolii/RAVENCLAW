@@ -47,7 +47,7 @@
   padding: 12px 24px; /* Larger padding for buttons */
   font-size: 1.1rem; /* Match button font size with GamePlay */
   background-color: white;
-  color: #946b2b;
+  color: #0e1a40;
   border: none;
   border-radius: 5px; /* Rounded corners for buttons */
   margin-top: 20px; /*Same size as Login Button spacing */
@@ -61,7 +61,7 @@
 
 .score-container {
   margin-top: 20px;
-  font-size: 1.1rem; /* Consistent with GamePlay */
+  font-size: 1.1rem; 
   text-align: center; /* Center-align the score section */
 }
 

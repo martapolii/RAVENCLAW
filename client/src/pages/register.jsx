@@ -7,19 +7,19 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // We need to add registeration logic here - deliverable 3 likely will have this
     alert('Registration successful!');
   };
 
   const pageStyles = {
     textAlign: 'center',
-    margin: '20px',
     backgroundColor: '#0e1a40', // Ravenclaw blue
     color: '#946b2b', // White text color
     padding: '40px',
     borderRadius: '10px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-    fontFamily: "'Georgia', serif", 
+    fontFamily: "'Georgia', serif",
+    margin: '20px auto', // Ensures same margin as each page 
+    maxWidth: '800px', // Limits the width to match each page
   };
 
   const formStyles = {
@@ -47,7 +47,7 @@ const Register = () => {
 
   const buttonStyles = {
     backgroundColor: '#ffffff', // White button
-    color: '#946b2b', // Dark gold text color
+    color: '#0e1a40', // Dark gold text color
     padding: '15px 30px',
     fontSize: '1.2em',
     border: 'none',
