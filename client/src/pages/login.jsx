@@ -6,7 +6,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Need to do some updating here for deliverable 3 
     alert('Login successful!');
   };
 
@@ -18,7 +17,8 @@ const Login = () => {
     padding: '40px',
     borderRadius: '10px',
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-    marginTop: '50px',
+    margin: '20px auto', // Ensures same margin as Register page
+    maxWidth: '800px', // Limits the width to match the Register page
   };
 
   const formStyles = {
@@ -45,8 +45,8 @@ const Login = () => {
   };
 
   const buttonStyles = {
-    backgroundColor: '#white', // Silver button
-    color: '#946b2b', // Dark blue text
+    backgroundColor: '#ffffff', // Silver button
+    color: '#0e1a40', // Dark blue text
     padding: '15px 30px',
     fontSize: '1.2em',
     border: 'none',

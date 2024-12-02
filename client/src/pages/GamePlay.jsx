@@ -48,6 +48,7 @@ useEffect(() => {
 
   return (
     <div className="gameplay-container" style={gameplayContainerStyle}>
+
       <h2>Harry Potter Trivia</h2>
       
       {/* Check if questions are available and not empty */}
@@ -100,7 +101,7 @@ const gameplayContainerStyle = {
   borderRadius: "8px",
   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
   maxWidth: "600px",
-  margin: "auto",
+  margin: '20px auto',
   textAlign: "center",
 };
 
