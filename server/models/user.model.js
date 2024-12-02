@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -23,33 +24,31 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  hashed_password: {
+  password: {
     type: String,
     required: 'Password is required', 
   },
-  salt: String
+  //bcrypt handles salt
 });
 
-// password validation
-userSchema.virtual("password")
-  .set(function (password) {
-    this._password = password;
-    //this.salt = this.makeSalt();
-    this.hashed_password = password;
-    //this.hashed_password = this.encryptPassword(password);
-  })
-  .get(function () {
-    return this._password;
-  });
-userSchema.path("hashed_password").validate(function (v) {
-  if (this._password && this._password.length < 6) {
-    this.invalidate("password", "Password must be at least 6 characters.");
+// middleware to hash password before saving
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
   }
-  if (this.isNew && !this._password) {
-    this.invalidate("password", "Password is required");
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
   }
-}, null);
+});
 
+// method to compare password to hashed password automatically
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 const User = mongoose.model('User', userSchema);
 

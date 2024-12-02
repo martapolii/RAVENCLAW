@@ -5,6 +5,7 @@ import dotenv from 'dotenv'; // import dotenv for environment variables
 import path from 'path'; // import path module for file and directory paths
 import mongoose from 'mongoose'; // import mongoose for MongoDB connection
 import { fileURLToPath } from 'url'; // import fileURLToPath for ES module compatibility
+import cookieParser from 'cookie-parser'; // for parsing cookies used in log in/log out methods
 import assetsRouter from './routes/assets-router.js'; // import assets-router
 import userRoutes from './routes/userRoutes.js'; // import user routes
 import questionRoutes from './routes/questionRoutes.js'; // import question routes
@@ -22,6 +23,8 @@ const app = express();
 // Add middleware to parse JSON and URL-encoded request bodies
 app.use(express.json()); // Parses JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
+app.use(cookieParser()); // pasrse cookies
+
 
 // MongoDB connection
 mongoose.connect(config.mongoUri)
