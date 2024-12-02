@@ -27,5 +27,25 @@ router.delete('/:id', protect, deleteUser); // tested
 // Route to signout a user
 router.post('/signout', protect, signoutUser); // tested
 
+// GET /api/users/me - additional route to get current logged in user's profile, for front end integration
+router.get('/me', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      id: user._id,
+      name: user.username,
+      email: user.email,
+      score: user.highScore,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 export default router;
 

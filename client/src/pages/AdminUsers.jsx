@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-  const [userInfo, setUserInfo] = useState({
-    name: 'Harry Potter',
-    email: 'harry.potter@example.com',
-    score: 50,
-  });
+  const [userInfo, setUserInfo] = useState(null); // add default state so that empty object is not returned = error
+  const [isLoading, setIsLoading] = useState(true); 
+  const [isEditing, setIsEditing] = useState(false); 
+  const [editValues, setEditValues] = useState({});
 
-  const [isEditing, setIsEditing] = useState(false); // Track editing state
-  const [editValues, setEditValues] = useState({ ...userInfo }); // Editable fields
-
+  // getting user info from the database
   useEffect(() => {
-    const fetchedUserInfo = {
-      name: 'Harry Potter',
-      email: 'harry.potter@example.com',
-      score: 50,
+    const fetchUserInfo = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // using token to get user info (has to be admin account)
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user info');
+        }
+
+        const data = await response.json(); // fetch and parse response
+        console.log('Fetched user data:', data); // debug fetched data
+        setUserInfo(data);
+        setEditValues(data); // update fields for editing
+      } catch (error) {
+        console.error('Error fetching user information:', error);
+      } finally {
+        setIsLoading(false); // loading = false after fetch
+      }
     };
-    setUserInfo(fetchedUserInfo);
+
+    fetchUserInfo();
   }, []);
 
   // Handle input changes during edit
@@ -28,11 +45,29 @@ const UserProfile = () => {
     }));
   };
 
-  // Save changes
-  const handleSave = () => {
-    setUserInfo(editValues);
-    setIsEditing(false);
-    alert('Profile updated successfully!');
+  // Save changes to the backend
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userInfo.id}`, { // save by user ID
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // using token to get user info (has to be admin account)
+        },
+        body: JSON.stringify(editValues),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update user profile');
+      }
+      const updatedUser = await response.json();
+      setUserInfo(updatedUser);
+      setIsEditing(false);
+      alert('Profile updated successfully!'); // Happy path
+    } catch (error) { // Sad path
+      console.error('Error updating user profile:', error);
+      alert('Failed to update profile.');
+    }
   };
 
   // Cancel editing
@@ -40,6 +75,20 @@ const UserProfile = () => {
     setEditValues({ ...userInfo });
     setIsEditing(false);
   };
+  
+  const errormsg = { // error message style
+    color: 'red',
+    fontSize: '1.5rem',
+    textAlign: 'center',
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>; // show this msg while loading
+  }
+
+  if (!userInfo) {
+    return <p style={errormsg}>No user information available.</p>; //  when user data is unavailable
+  }
 
   // Styles
   const profileContainerStyle = {
@@ -102,14 +151,14 @@ const UserProfile = () => {
 
   return (
     <div style={profileContainerStyle}>
-      <h2 style={headerStyle}>Edit User Profile</h2>
+      <h2 style={headerStyle}>View User Accounts</h2>
       {isEditing ? (
         <div>
           <input
             style={inputStyle}
             type="text"
             name="name"
-            value={editValues.name}
+            value={editValues.name || ''}
             onChange={handleInputChange}
             placeholder="Name"
           />
@@ -117,7 +166,7 @@ const UserProfile = () => {
             style={inputStyle}
             type="email"
             name="email"
-            value={editValues.email}
+            value={editValues.email || ''}
             onChange={handleInputChange}
             placeholder="Email"
           />
@@ -125,7 +174,7 @@ const UserProfile = () => {
             style={inputStyle}
             type="number"
             name="score"
-            value={editValues.score}
+            value={editValues.score || 0}
             onChange={handleInputChange}
             placeholder="Score"
           />
