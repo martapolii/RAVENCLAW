@@ -95,6 +95,7 @@ useEffect(() => {
 };
 
 // Inline styles for GamePlay component
+// Inline styles for GamePlay component
 const gameplayContainerStyle = {
   backgroundColor: "#f4f4f9",
   padding: "20px",
