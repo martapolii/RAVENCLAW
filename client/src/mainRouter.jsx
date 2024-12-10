@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Login from './pages/login';
 import Register from './pages/register';
 import UserProfile from './pages/UserProfile';
 import GamePlay from './pages/GamePlay';

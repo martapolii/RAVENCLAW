@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // For making API requests
+import { useNavigate } from 'react-router-dom'; // for redirtecting after login 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -6,6 +8,7 @@ const Login = () => {
   // added backend-frontend integration
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate(); // initializing useNavigate hook 
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -13,27 +16,19 @@ const handleSubmit = async (e) => {
   setError(null);
 
   try {
-    // backend URL from env
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
-
     //  POST request to the backend login api endpoiint
-    const response = await fetch(`${backendUrl}/api/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }), 
-    });
+    const response = await axios.post('/api/users/login', {email, password,});
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('Invalid credentials');
     }
-    const data = await response.json();
+    const data = response.data; // axios response data
     const { token } = data;
     localStorage.setItem('token', token); // save token
 
     // redirect user after login
-    window.location.href = '/user-profile';
+    navigate('/user-profile'); // use useNaviagte hook to redirect to user profile page
+    
   } catch (error) {
     setError('Login failed. Please check your email and password.');
     console.error('Error during login:', error);
@@ -91,6 +86,12 @@ const handleSubmit = async (e) => {
   const buttonHoverStyles = {
     backgroundColor: '#1f2a59', // Dark blue background on hover
     color: '#c0c0c0', // Silver text on hover
+  };
+
+  const errorStyle = {
+    color: 'red',
+    fontWeight: 'bold',
+    marginTop: '10px',
   };
 
   return (

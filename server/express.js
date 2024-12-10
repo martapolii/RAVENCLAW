@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(compress())
 app.use(helmet())
-app.use(cors())
+app.use(cors()) // so front + back can run on different ports
 
 // Export express app
 export default app
