@@ -1,19 +1,16 @@
-import './css/App.css'
+import './css/App.css';
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-//import { ThemeProvider } from '@material-ui/styles';
-import MainRouter from './mainRouter';
-//import Contact from './contact'
-//import theme from '../theme';
-//import { hot } from 'react-hot-loader'
+import { BrowserRouter as Router } from 'react-router-dom'; // Import Router
+import MainRouter from './mainRouter'; // MainRouter handles all page-level routing
 
+// Main App Component
 const App = () => {
   return (
-  <Router>
-
-  <MainRouter />
-
-  </Router>
+    <Router>
+      {/* Main Router handles navigation between pages */}
+      <MainRouter />
+    </Router>
   );
 };
+
 export default App;
