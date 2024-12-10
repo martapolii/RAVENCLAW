@@ -1,15 +1,45 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // For making API requests
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState(''); // For success/error messages
+  const [isError, setIsError] = useState(false); // To style messages accordingly
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Registration successful!');
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevents page refresh on form submission
+
+    // Client-side validation
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match!'); // Error message
+      setIsError(true);
+      return;
+    }
+
+    try {
+      // API request to register the user
+      const response = await axios.post('/api/users/register', {
+        email,
+        password,
+      });
+
+      // If successful, set success message and clear form fields
+      setMessage('Registration successful! Welcome to Ravenclaw.');
+      setIsError(false);
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      // Handle errors returned from the server
+      setMessage(error.response?.data?.message || 'Registration failed. Try again.');
+      setIsError(true);
+    }
   };
 
+  // Styling for the registration page container
   const pageStyles = {
     textAlign: 'center',
     backgroundColor: '#0e1a40', // Ravenclaw blue
@@ -22,6 +52,7 @@ const Register = () => {
     maxWidth: '800px', // Limits the width to match each page
   };
 
+  // Styling for the form
   const formStyles = {
     display: 'flex',
     flexDirection: 'column',
@@ -34,6 +65,7 @@ const Register = () => {
     margin: '0 auto',
   };
 
+  // Styling for input fields
   const inputStyles = {
     padding: '10px',
     margin: '10px',
@@ -45,6 +77,7 @@ const Register = () => {
     backgroundColor: '#c0c0c0', // Silver background for input fields
   };
 
+  // Styling for buttons
   const buttonStyles = {
     backgroundColor: '#ffffff', // White button
     color: '#0e1a40', // Dark gold text color
@@ -56,9 +89,17 @@ const Register = () => {
     marginTop: '20px',
   };
 
+  // Styling for hover effects on buttons
   const buttonHoverStyles = {
     backgroundColor: '#1f2a59', // Dark blue background on hover
     color: '#c0c0c0', // Silver text on hover
+  };
+
+  // Styling for success or error messages
+  const messageStyles = {
+    color: isError ? '#ff4d4d' : '#4caf50', // Red for errors, green for success
+    fontSize: '1.1em',
+    marginTop: '20px',
   };
 
   return (
@@ -66,6 +107,7 @@ const Register = () => {
       <h1>Create Your Account</h1>
       <p>Join the ranks of Ravenclaw and unlock your path to knowledge!</p>
 
+      {/* Form for user registration */}
       <form style={formStyles} onSubmit={handleSubmit}>
         <input
           type="email"
@@ -73,6 +115,7 @@ const Register = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={inputStyles}
+          required // Ensures the field is not left empty
         />
         <input
           type="password"
@@ -80,6 +123,7 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={inputStyles}
+          required // Ensures the field is not left empty
         />
         <input
           type="password"
@@ -87,6 +131,7 @@ const Register = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           style={inputStyles}
+          required // Ensures the field is not left empty
         />
         <button
           type="submit"
@@ -97,6 +142,9 @@ const Register = () => {
           Register
         </button>
       </form>
+
+      {/* Message section for feedback */}
+      {message && <p style={messageStyles}>{message}</p>}
     </div>
   );
 };

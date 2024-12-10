@@ -14,4 +14,13 @@ export default defineConfig({
         input: "./index.html", //entry file for the app
     },
   },
+server: {
+  proxy: {
+    "/api": {
+      target: "http://localhost:3000", // setting proxy bc backend server and front end running on different ports
+      changeOrigin: true,
+      secure: false,
+    },
+  },
+},
 });

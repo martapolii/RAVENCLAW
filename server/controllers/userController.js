@@ -78,6 +78,7 @@ export const loginUser = async (req, res) => {
         if (!isAuthenticated) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
+        console.log('User logged in:', user.username);
         // generate a token
         const token = jwt.sign(
             { id: user._id, email: user.email, username: user.username, role: user.role },
@@ -96,7 +97,7 @@ export const loginUser = async (req, res) => {
             username: user.username,
             email: user.email,
             role: user.role,
-            //token, - no need bc stored in cookie now
+            token, //- no need bc stored in cookie now <- but can be used for front end to store in local storage
         });
     } catch (error) {
         console.error('Error in loginUser:', error.message);

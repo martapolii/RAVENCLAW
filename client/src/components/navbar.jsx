@@ -12,13 +12,13 @@ const Navbar = () => {
         </NavLink>
       </div>
       <ul style={{ display: 'flex', listStyleType: 'none', gap: '20px' }}>
-        <li><NavLink to="/" exact="true" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Home</NavLink></li>
-        <li><NavLink to="/login" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Login</NavLink></li>
-        <li><NavLink to="/register" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Register</NavLink></li>
-        <li><NavLink to="/user-profile" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>My Profile</NavLink></li>
-        <li><NavLink to="/game-play" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Game Play</NavLink></li>
-        <li><NavLink to="/admin-questions" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Admin Questions</NavLink></li>
-        <li><NavLink to="/admin-users" activeClassName="active" style={{ color: 'black', textDecoration: 'none' }}>Admin Users</NavLink></li>
+        <li><NavLink to="/" exact="true" activeClassName="active">Home</NavLink></li>
+        <li><NavLink to="/login" activeClassName="active">Login</NavLink></li>
+        <li><NavLink to="/register" activeClassName="active">Register</NavLink></li>
+        <li><NavLink to="/user-profile" activeClassName="active">My Profile</NavLink></li>
+        <li><NavLink to="/game-play" activeClassName="active">Game Play</NavLink></li>
+        <li><NavLink to="/admin-questions" activeClassName="active">Admin Questions</NavLink></li>
+        <li><NavLink to="/admin-users" activeClassName="active">Admin Users</NavLink></li>
       </ul>
     </nav>
   );
