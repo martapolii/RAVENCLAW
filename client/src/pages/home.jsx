@@ -32,6 +32,8 @@ const Home = () => {
     color: '#c0c0c0', // Silver text on hover
   };
 
+  const navigate = useNavigate(); // initializing useNavigate hook 
+
   return (
     <div style={homeStyles}>
       <h1>Welcome, Ravenclaw! Test Your Knowledge and Prove Your Brilliance!</h1>
