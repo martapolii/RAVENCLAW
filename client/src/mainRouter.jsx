@@ -8,6 +8,8 @@ import UserProfile from './pages/UserProfile';
 import GamePlay from './pages/GamePlay';
 import AdminQuestions from './pages/AdminQuestions';
 import AdminUsers from './pages/AdminUsers';
+import ProtectedRoute from './components/protected-route'; // Custom route protection
+import AdminRoute from './components/admin-route'; // Admin-only route protection
 
 const MainRouter = ({ isAuthenticated, isAdmin }) => {
   return (
