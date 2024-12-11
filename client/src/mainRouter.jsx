@@ -11,7 +11,7 @@ import AdminUsers from './pages/AdminUsers';
 import ProtectedRoute from './components/protected-route'; // Custom route protection
 import AdminRoute from './components/admin-route'; // Admin-only route protection
 
-const MainRouter = ({ isAuthenticated, isAdmin }) => {
+const MainRouter = ({ isAuthenticated, isAdmin, onLogin }) => { {/* add onLogin */}
   return (
     <div>
       {/* Navbar displayed on all pages */}
@@ -20,7 +20,7 @@ const MainRouter = ({ isAuthenticated, isAdmin }) => {
       {/* Routes for navigation */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={onLogin} />} /> {/*passing onLogin function to login page*/}
         <Route path="/register" element={<Register />} />
         
         {/* Protected route for authenticated users */}
@@ -32,7 +32,7 @@ const MainRouter = ({ isAuthenticated, isAdmin }) => {
             </ProtectedRoute>
           }
         />
-        
+
         <Route path="/game-play" element={<GamePlay />} />
 
         {/* Admin-only routes */}
