@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Home from './pages/Home';
 import Login from './pages/login';
@@ -8,25 +8,53 @@ import UserProfile from './pages/UserProfile';
 import GamePlay from './pages/GamePlay';
 import AdminQuestions from './pages/AdminQuestions';
 import AdminUsers from './pages/AdminUsers';
+import ProtectedRoute from './components/ProtectedRoute'; // Custom route protection
+import AdminRoute from './components/AdminRoute'; // Admin-only route protection
 
-const MainRouter = () => {
+const MainRouter = ({ isAuthenticated, isAdmin }) => {
   return (
     <div>
       {/* Navbar displayed on all pages */}
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} isAdmin={isAdmin} />
       
       {/* Routes for navigation */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/game-play" element={<GamePlay />} />
-        <Route path="/admin-questions" element={<AdminQuestions />} />
-        <Route path="/admin-users" element={<AdminUsers />} />
         
+        {/* Protected route for authenticated users */}
+        <Route
+          path="/user-profile"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route path="/game-play" element={<GamePlay />} />
+
+        {/* Admin-only routes */}
+        <Route
+          path="/admin-questions"
+          element={
+            <AdminRoute isAdmin={isAdmin}>
+              <AdminQuestions />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin-users"
+          element={
+            <AdminRoute isAdmin={isAdmin}>
+              <AdminUsers />
+            </AdminRoute>
+          }
+        />
+
         {/* Redirect for undefined routes */}
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
