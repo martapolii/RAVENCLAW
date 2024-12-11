@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // for redirtecting after pressing get started
 
 const Home = () => {
   const homeStyles = {
@@ -41,7 +42,7 @@ const Home = () => {
         style={buttonStyles}
         onMouseOver={(e) => e.target.style.backgroundColor = buttonHoverStyles.backgroundColor}
         onMouseOut={(e) => e.target.style.backgroundColor = buttonStyles.backgroundColor}
-        onClick={() => window.location.href = '/login'}
+        onClick={() => navigate('/login')} // use useNaviagte hook to redirect to login page
       >
         Get Started
       </button>
