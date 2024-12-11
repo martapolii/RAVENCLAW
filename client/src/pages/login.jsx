@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom'; // for redirtecting after login 
 
-const Login = () => {
+const Login = ({onLogin}) => { // **had error where login was not being detected by app.jsx, so adding a prop for this function**
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // added backend-frontend integration
@@ -19,12 +19,14 @@ const handleSubmit = async (e) => {
     //  POST request to the backend login api endpoiint
     const response = await axios.post('/api/users/login', {email, password,});
 
-    if (response.status !== 200) {
+    if (response.status !== 200) { //error if invalid password/email
       throw new Error('Invalid credentials');
     }
-    const data = response.data; // axios response data
-    const { token } = data;
-    localStorage.setItem('token', token); // save token
+ 
+    const { token, role } = response.data; // axios response data
+    localStorage.setItem('authToken', token); // save token
+
+    onLogin(token, role); // **notify App.jsx about the user login**
 
     // redirect user after login
     navigate('/user-profile'); // use useNaviagte hook to redirect to user profile page
