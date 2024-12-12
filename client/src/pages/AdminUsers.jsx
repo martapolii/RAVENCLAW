@@ -105,6 +105,7 @@ const UserProfile = () => {
     color: '#0e1a40',
     fontSize: '2rem',
     marginBottom: '20px',
+    fontFamily: "'Georgia', serif",
   };
 
   const userInfoStyle = {
@@ -126,27 +127,6 @@ const UserProfile = () => {
     display: 'flex',
     gap: '20px',
     justifyContent: 'center',
-  };
-
-  const buttonStyle = {
-    padding: '12px 24px',
-    fontSize: '1.1rem',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
-
-  const saveButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#1f2a59',
-    color: 'white',
-  };
-
-  const cancelButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#d9534f',
-    color: 'white',
   };
 
   return (
@@ -179,10 +159,10 @@ const UserProfile = () => {
             placeholder="Score"
           />
           <div style={actionsStyle}>
-            <button style={saveButtonStyle} onClick={handleSave}>
+            <button className="base-button" onClick={handleSave}>
               Save
             </button>
-            <button style={cancelButtonStyle} onClick={handleCancel}>
+            <button className="base-button" onClick={handleCancel}>
               Cancel
             </button>
           </div>
@@ -199,7 +179,7 @@ const UserProfile = () => {
             <strong>Score:</strong> {userInfo.score}
           </p>
           <button
-            style={saveButtonStyle}
+            className="base-button"
             onClick={() => setIsEditing(true)}
           >
             Edit Profile

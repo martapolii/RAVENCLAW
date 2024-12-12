@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // for redirtecting after pressing get started
-import '../css/Home.css';
+import '../css/buttons.css';
 
 const Home = () => {
   const homeStyles = {
@@ -25,7 +25,7 @@ const Home = () => {
         You've arrived at the right place, fellow Ravenclaw. Welcome to the world of Harry Potter Trivia—where only the sharpest minds can claim victory. 
         Are you ready to test your knowledge and prove your brilliance? Let the game begin!</p>
       <button
-        className="start-button"
+        className="base-button"
         onClick={() => navigate('/login')} // use useNaviagte hook to redirect to login page
       >
         Get Started

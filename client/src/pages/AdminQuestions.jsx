@@ -157,7 +157,7 @@ const AdminQuestions = () => {
                     Edit
                   </button>
                   <button
-                    className="button"
+                    className="delete-button"
                     onClick={() => deleteQuestion(q._id)}
                   >
                     Delete

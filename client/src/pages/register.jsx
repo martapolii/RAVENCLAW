@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
-import '../css/Home.css';
+import '../css/buttons.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -118,7 +118,7 @@ const Register = () => {
         />
         <button
           type="submit"
-          className="start-button"
+          className="base-button"
         >
           Register
         </button>

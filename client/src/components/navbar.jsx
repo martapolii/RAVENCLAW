@@ -32,7 +32,7 @@ const Navbar = ({ isAuthenticated, isAdmin, onLogout }) => {
           <>
             <li><NavLink to="/user-profile" className={({ isActive }) => (isActive ? 'active' : undefined)}>My Profile</NavLink></li>
             <li><NavLink to="/game-play" className={({ isActive }) => (isActive ? 'active' : undefined)}>Game Play</NavLink></li>
-            <li><button onClick={onLogout} style={{background: 'none', color: 'white', cursor: 'pointer' }}>Logout</button></li>
+            <li><button onClick={onLogout} className="base-button logout-button">Logout</button></li>
           </>
         )}
       </ul>

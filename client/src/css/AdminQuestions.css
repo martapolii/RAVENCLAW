@@ -5,6 +5,7 @@
   color: #946b2b; /* Bronze Ravenclaw color */
   margin-bottom: 20px; 
   text-align: center; 
+  font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 .container {
@@ -69,6 +70,18 @@
   transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
+.delete-button{
+  padding: 12px 24px; /* Larger padding for buttons */
+  font-size: 1.1rem; /* Match button font size with GamePlay */
+  background-color: #6b1310;
+  color: #c0c0c0;
+  border: none;
+  border-radius: 5px; /* Rounded corners for buttons */
+  margin-top: 20px; /*Same size as Login Button spacing */
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
 .edit-delete-buttons {
   margin-left: 0%;
 }

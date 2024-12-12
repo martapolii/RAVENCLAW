@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom'; // for redirtecting after login 
-import '../css/Home.css';
+import '../css/buttons.css';
 
 const Login = ({onLogin}) => { // **had error where login was not being detected by app.jsx, so adding a prop for this function**
   const [email, setEmail] = useState('');
@@ -107,7 +107,7 @@ const handleSubmit = async (e) => {
         />
         <button
           type="submit"
-          className="start-button"
+          className="base-button"
           disabled={isLoading}
         >
           {isLoading ? 'Logging in...' : 'Login'}

@@ -1,0 +1,8 @@
+[build]
+command =  "cd client && npm install && npm run build"
+publish = "client/dist"
+
+[context.production.environment]
+NODE_VERSION = "20.17.0"
+
+
