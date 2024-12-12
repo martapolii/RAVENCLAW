@@ -12,7 +12,7 @@
   background-color: #0e1a40; 
   border-radius: 8px; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-  max-width: 600px; /* Center and constrain the width */
+  max-width: 800px; /* Center and constrain the width */
   margin: 20px auto 20px auto; /* Add top margin for space below navbar - trying to make it consistent throughout */
   text-align: center; 
 }
@@ -21,9 +21,12 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  color: whitesmoke;
 }
 
 .question-item {
+  display: flex;
+  justify-content: space-between;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 1.1rem; /* Slightly larger font for readability */
@@ -35,6 +38,16 @@
 
 .input-group input,
 .input-group textarea {
+  width: 80%;
+  padding: 12px; /* Slightly larger padding for comfort */
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Subtle border for inputs */
+  border-radius: 5px; /* Rounded corners for inputs */
+}
+
+.edit-group input,
+.edit-group textarea {
   width: 100%;
   padding: 12px; /* Slightly larger padding for comfort */
   margin: 5px 0;
@@ -51,14 +64,20 @@
   border: none;
   border-radius: 5px; /* Rounded corners for buttons */
   margin-top: 20px; /*Same size as Login Button spacing */
+  margin-right: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.edit-delete-buttons {
+  margin-left: 0%;
 }
 
 .button:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
 
+/* below is for a diff page*/
 .score-container {
   margin-top: 20px;
   font-size: 1.1rem; 

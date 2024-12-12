@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'; // for redirtecting after pressi
 const Home = () => {
   const homeStyles = {
     textAlign: 'center',
-    margin: '20px',
+    //margin: '20px',
     backgroundColor: '#0e1a40', // Ravenclaw blue
     color: '#946b2b', // White text color
     padding: '40px',
