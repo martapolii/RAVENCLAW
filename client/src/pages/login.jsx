@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
 import { useNavigate } from 'react-router-dom'; // for redirtecting after login 
+import '../css/Home.css';
 
 const Login = ({onLogin}) => { // **had error where login was not being detected by app.jsx, so adding a prop for this function**
   const [email, setEmail] = useState('');
@@ -74,22 +75,6 @@ const handleSubmit = async (e) => {
     backgroundColor: '#c0c0c0', // Silver background for input fields
   };
 
-  const buttonStyles = {
-    backgroundColor: '#ffffff', // Silver button
-    color: '#0e1a40', // Dark blue text
-    padding: '15px 30px',
-    fontSize: '1.2em',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '20px',
-  };
-
-  const buttonHoverStyles = {
-    backgroundColor: '#1f2a59', // Dark blue background on hover
-    color: '#c0c0c0', // Silver text on hover
-  };
-
   const errorStyle = {
     color: 'red',
     fontWeight: 'bold',
@@ -122,15 +107,7 @@ const handleSubmit = async (e) => {
         />
         <button
           type="submit"
-          style={buttonStyles}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = buttonHoverStyles.backgroundColor;
-            e.target.style.color = buttonHoverStyles.color;
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = buttonStyles.backgroundColor;
-            e.target.style.color = buttonStyles.color;
-          }}
+          className="start-button"
           disabled={isLoading}
         >
           {isLoading ? 'Logging in...' : 'Login'}
