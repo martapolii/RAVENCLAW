@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
 import '../css/buttons.css';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -8,6 +9,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(''); // For success/error messages
   const [isError, setIsError] = useState(false); // To style messages accordingly
+
+  const navigate = useNavigate();
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -22,17 +25,21 @@ const Register = () => {
 
     try {
       // API request to register the user
-      const response = await axios.post('/api/users/register', {
-        email,
-        password,
-      });
+      const response = await axios.post('/api/users/register', 
+        {email, password,},
+        { withCredentials: true } // set the cookie
+      );
+
+      
+      // redirect to my login page after successful registration
+      navigate('/login');
 
       // If successful, set success message and clear form fields
-      setMessage('Registration successful! Welcome to Ravenclaw.');
-      setIsError(false);
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      // setMessage('Registration successful! Welcome to Ravenclaw.');
+      // setIsError(false);
+      // setEmail('');
+      // setPassword('');
+      // setConfirmPassword('');
     } catch (error) {
       // Handle errors returned from the server
       setMessage(error.response?.data?.message || 'Registration failed. Try again.');

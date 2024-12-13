@@ -2,48 +2,56 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// Fetches all users
+// fetches all users
 export const getUsers = async (_req, res) => {
     try {
-        const users = await User.find().select('username email role');
+        const users = await User.find().select('email role'); // removed username field
         res.status(200).json(users);
     } catch (error) {
-        console.error('Error in getUsers:', error.message);
-        res.status(500).json({ message: 'Server error'});
+        console.error('error in getUsers:', error.message);
+        res.status(500).json({ message: 'server error' });
     }
 };
 
-// Registers a new user
+// registers a new user
 export const registerUser = async (req, res) => {
     try {
-        const {email, password, role } = req.body; //added role or else can't create admin user
+        const { email, password, role } = req.body; // added role for admin creation
 
-        // Validate input
+        // validate input
         if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' });
+            return res.status(400).json({ message: 'email and password are required' });
         }
 
-        // Check if the username or email already exists
-        const existingUser = await User.findOne({ $or: [{ email }] });
+        // check if the email already exists
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'Account with this email already exists' });
+            return res.status(400).json({ message: 'account with this email already exists' });
         }
 
-        // Create and save the user
+        // create and save the user
         const user = new User({
             email,
             password,
-            role: role || 'user', // set role to user on default, can be edited by admins on Admin Users page
+            role: role || 'user', // defaults role to 'user', can be updated by admin
         });
 
         await user.save();
 
-        // Generate a token
+        // generate a token
         const token = jwt.sign(
             { id: user._id, email: user.email, role: user.role },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
+        // set the token as an HTTP-only cookie for security and easy logout
+        // this ensures consistency with the login function
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 3600000, // 1 hour
+        });
 
         res.status(201).json({
             id: user._id,
@@ -52,141 +60,138 @@ export const registerUser = async (req, res) => {
             token,
         });
     } catch (error) {
-        console.error('Error in registerUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('error in registerUser:', error.message);
+        res.status(500).json({ message: 'server error', error: error.message });
     }
 };
 
-// Logs in a user
+// logs in a user
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' });
+            return res.status(400).json({ message: 'email and password are required' });
         }
 
-        const user = await User.findOne({ email }); // find user by email
-        if (!user) { 
-            return res.status(401).json({ message: 'Invalid credentials' });
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ message: 'invalid credentials' });
         }
 
-        // use comparePassword logic from the userr model
-        const isAuthenticated = await user.comparePassword(password); //will compare password to hashed password (was giving me issues before because I was trying to log in with an un-hashed password)
+        // compare the password with the hashed password
+        const isAuthenticated = await user.comparePassword(password);
         if (!isAuthenticated) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'invalid credentials' });
         }
-        console.log('User logged in:', user.username);
+
+        console.log('user logged in:', user.email);
+
         // generate a token
         const token = jwt.sign(
-            { id: user._id, email: user.email, username: user.username, role: user.role },
+            { id: user._id, email: user.email, role: user.role },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
 
-        res.cookie('authCookie', token, { // set token in a cookie so it can be cleared on sign out
+        // set token in a cookie
+        res.cookie('authCookie', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600000, // 1hr
-        })
+            maxAge: 3600000, // 1 hour
+        });
 
-        res.status(200).json({ // respond w user details
+        res.status(200).json({
             id: user._id,
-            username: user.username,
             email: user.email,
             role: user.role,
-            token, //- no need bc stored in cookie now <- but can be used for front end to store in local storage
+            token,
         });
     } catch (error) {
-        console.error('Error in loginUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('error in loginUser:', error.message);
+        res.status(500).json({ message: 'server error', error: error.message });
     }
 };
 
-// Fetches user details
+// fetches user details
 export const getUser = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // added to check if user is feteching their own account or if they are an admin, otherwise regualar users can fetch details for any account
+        // restrict access to the user or admin
         if (req.user.role !== 'admin' && req.user.id !== id) {
-            return res.status(403).json({ message: 'Not authorized to see user details' });
+            return res.status(403).json({ message: 'not authorized to see user details' });
         }
 
         const user = await User.findById(id);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'user not found' });
         }
 
         res.status(200).json(user);
     } catch (error) {
-        console.error('Error in getUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('error in getUser:', error.message);
+        res.status(500).json({ message: 'server error', error: error.message });
     }
 };
 
-// Updates user details
+// updates user details
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { username, email, password } = req.body; // added password 
+        const { email, password } = req.body;
 
-        // added to check if user is upating their own account or if they are an admin, otherwise regualar users can update any account
+        // restrict access to the user or admin
         if (req.user.role !== 'admin' && req.user.id !== id) {
-            return res.status(403).json({ message: 'Not authorized to update user' });
+            return res.status(403).json({ message: 'not authorized to update user' });
         }
 
-        const updateData = { username, email }; // store update data in object
+        const updateData = { email }; // update email only
 
-        if (password) { // if password is provided, hash it and add to update data object
+        if (password) { // hash password if provided
             const salt = await bcrypt.genSalt(10);
             updateData.password = await bcrypt.hash(password, salt);
         }
-        const updatedUser = await User.findByIdAndUpdate(
-            id,
-            updateData,
-            { new: true }
-        );
+
+        const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'user not found' });
         }
 
         res.status(200).json(updatedUser);
     } catch (error) {
-        console.error('Error in updateUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('error in updateUser:', error.message);
+        res.status(500).json({ message: 'server error', error: error.message });
     }
 };
 
-// Deletes a user
+// deletes a user
 export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
 
-         // added to check if user is deleting their own account or if they are an admin, otherwise regualar users can delete any account
+        // restrict access to the user or admin
         if (req.user.role !== 'admin' && req.user.id !== id) {
-            return res.status(403).json({ message: 'Not authorized to delete user' });
+            return res.status(403).json({ message: 'not authorized to delete user' });
         }
 
         const user = await User.findByIdAndDelete(id);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'user not found' });
         }
 
-        res.status(200).json({ message: 'User deleted successfully' });
+        res.status(200).json({ message: 'user deleted successfully' });
     } catch (error) {
-        console.error('Error in deleteUser:', error.message);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('error in deleteUser:', error.message);
+        res.status(500).json({ message: 'server error', error: error.message });
     }
 };
 
-// Signs out a user 
+// signs out a user
 export const signoutUser = async (_req, res) => {
-    // need to clear cookie used in sign in
-
     res.clearCookie('authCookie', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
     });
-    res.status(200).json({ message: 'User signed out successfully' });
+    res.status(200).json({ message: 'user signed out successfully' });
 };
