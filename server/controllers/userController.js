@@ -44,8 +44,8 @@ export const registerUser = async (req, res) => {
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
-
-        // set the token as an HTTP-only cookie
+        // set the token as an HTTP-only cookie for security and easy logout
+        // this ensures consistency with the login function
         res.cookie('authToken', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
