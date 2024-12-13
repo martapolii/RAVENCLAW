@@ -18,6 +18,7 @@ const handleLogin = (token, role) => { // **function to handle user login**
   setIsAdmin(role === 'admin'); // check if the user is an admin
 };
 // adding logout functionality
+const handleLogout = () => {
   setIsAuthenticated(false);
   setIsAdmin(false);
 };
@@ -61,5 +62,6 @@ useEffect(() => {
     </Router>
   );
 };
+
 
 export default App;

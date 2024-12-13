@@ -22,7 +22,12 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 // Enable CORS for all origins (adjust as needed)
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'http://localhost:5173',
+    credentials: true, //allows cookies
+  }
+));
 
 // Add middleware to parse JSON and URL-encoded request bodies
 app.use(express.json()); // Parses JSON bodies
