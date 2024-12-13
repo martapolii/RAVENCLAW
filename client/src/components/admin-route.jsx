@@ -7,4 +7,4 @@ const AdminRoute = ({isAdmin, children}) => {
   return isAdmin ? children : <Navigate to="/"/>;
 };
 
- export default AdminRoute;
+export default AdminRoute;

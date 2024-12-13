@@ -16,39 +16,37 @@ export const getUsers = async (_req, res) => {
 // Registers a new user
 export const registerUser = async (req, res) => {
     try {
-        const { username, email, password, role } = req.body; //added role or else can't create admin user
+        const {email, password, role } = req.body; //added role or else can't create admin user
 
         // Validate input
-        if (!username || !email || !password) {
-            return res.status(400).json({ message: 'Username, email, and password are required' });
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
         }
 
         // Check if the username or email already exists
-        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        const existingUser = await User.findOne({ $or: [{ email }] });
         if (existingUser) {
-            return res.status(400).json({ message: 'Username or email already exists' });
+            return res.status(400).json({ message: 'Account with this email already exists' });
         }
 
         // Create and save the user
         const user = new User({
-            username,
             email,
             password,
-            role: role || 'user', // set role to user if not provided, so you can make admin users, and it doesnt just default to user every time
+            role: role || 'user', // set role to user on default, can be edited by admins on Admin Users page
         });
 
         await user.save();
 
         // Generate a token
         const token = jwt.sign(
-            { id: user._id, email: user.email, username: user.username, role: user.role },
+            { id: user._id, email: user.email, role: user.role },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1h' }
         );
 
         res.status(201).json({
             id: user._id,
-            username: user.username,
             email: user.email,
             role: user.role,
             token,
