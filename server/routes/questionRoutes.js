@@ -5,13 +5,16 @@ import { protect, admin } from '../utils/auth.js';
 const router = express.Router();
 
 // Gets all questions
-router.get('/', getQuestions);
+router.get('/', getQuestions); //tested
 
 // Gets a question by ID
-router.get('/:id', getQuestion);
+router.get('/:id', getQuestion); // tested
+
+// protected = logged-in
+// admin = only admin accounts can access
 
 // Creates a new question (protected, admin only)
-router.post('/', protect, admin, createQuestion);
+router.post('/', protect, admin, createQuestion); // tested
 
 // Updates a question by ID (protected, admin only)
 router.put('/:id', protect, admin, updateQuestion);
@@ -20,3 +23,6 @@ router.put('/:id', protect, admin, updateQuestion);
 router.delete('/:id', protect, admin, deleteQuestion);
 
 export default router;
+
+
+

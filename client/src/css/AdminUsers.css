@@ -1,13 +1,3 @@
-/* AdminQuestions.css */
-.header {
-  font-size: 1.5rem; 
-  font-weight: bold; 
-  color: #946b2b; /* Bronze Ravenclaw color */
-  margin-bottom: 20px; 
-  text-align: center; 
-  font-family:Georgia, 'Times New Roman', Times, serif;
-}
-
 .container {
   padding: 20px;
   background-color: #0e1a40; 
@@ -18,19 +8,13 @@
   text-align: center; 
 }
 
-.question-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  color: whitesmoke;
-}
-
-.question-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  font-size: 1.1rem; /* Slightly larger font for readability */
+.header {
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  color: #946b2b; /* Bronze Ravenclaw color */
+  margin-bottom: 20px; 
+  text-align: center; 
+  font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 .input-group {
@@ -47,14 +31,19 @@
   border-radius: 5px; /* Rounded corners for inputs */
 }
 
-.edit-group input,
-.edit-group textarea {
-  width: 100%;
-  padding: 12px; /* Slightly larger padding for comfort */
-  margin: 5px 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc; /* Subtle border for inputs */
-  border-radius: 5px; /* Rounded corners for inputs */
+.question-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  color: whitesmoke;
+}
+
+.question-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem; /* Slightly larger font for readability */
 }
 
 .button {
@@ -88,26 +77,4 @@
 
 .button:hover {
   background-color: #0056b3; /* Darker blue on hover */
-}
-
-/* below is for a diff page*/
-.score-container {
-  margin-top: 20px;
-  font-size: 1.1rem; 
-  text-align: center; /* Center-align the score section */
-}
-
-.next-button {
-  padding: 12px 24px; /* Consistent with the primary buttons */
-  font-size: 1.1rem;
-  background-color: #0e1a40; /* Match with GamePlay next button */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.next-button:hover {
-  background-color: #0c152d; /* Darker shade on hover */
 }

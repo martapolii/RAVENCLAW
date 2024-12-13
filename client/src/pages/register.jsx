@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // For making API requests
+import '../css/buttons.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -77,24 +78,6 @@ const Register = () => {
     backgroundColor: '#c0c0c0', // Silver background for input fields
   };
 
-  // Styling for buttons
-  const buttonStyles = {
-    backgroundColor: '#ffffff', // White button
-    color: '#0e1a40', // Dark gold text color
-    padding: '15px 30px',
-    fontSize: '1.2em',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginTop: '20px',
-  };
-
-  // Styling for hover effects on buttons
-  const buttonHoverStyles = {
-    backgroundColor: '#1f2a59', // Dark blue background on hover
-    color: '#c0c0c0', // Silver text on hover
-  };
-
   // Styling for success or error messages
   const messageStyles = {
     color: isError ? '#ff4d4d' : '#4caf50', // Red for errors, green for success
@@ -135,9 +118,7 @@ const Register = () => {
         />
         <button
           type="submit"
-          style={buttonStyles}
-          onMouseOver={(e) => e.target.style.backgroundColor = buttonHoverStyles.backgroundColor}
-          onMouseOut={(e) => e.target.style.backgroundColor = buttonStyles.backgroundColor}
+          className="base-button"
         >
           Register
         </button>

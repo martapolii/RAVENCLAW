@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     trim: true,
-    required: 'Name is required',
+    //required: 'Name is required',   *made this optional as user registration doesn't require a username, so this was causing issues when attempting to register an account
     unique: true,
   },
   email: {

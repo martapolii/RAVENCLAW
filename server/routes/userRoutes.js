@@ -27,11 +27,14 @@ router.delete('/:id', protect, deleteUser); // tested
 // Route to signout a user
 router.post('/signout', protect, signoutUser); // tested
 
-// GET /api/users/me - additional route to get current logged in user's profile, for front end integration
+// GET /api/users/me 
 router.get('/me', protect, async (req, res) => {
-  try {
+  
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ message: 'User ID not found or invalid' }); 
+    }
+    try {
     const user = await User.findById(req.user.id);
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -43,6 +46,7 @@ router.get('/me', protect, async (req, res) => {
       score: user.highScore,
     });
   } catch (error) {
+    console.error('error in /me endpoint:', error.message);//debugging msg
     res.status(500).json({ message: 'Server error' });
   }
 });

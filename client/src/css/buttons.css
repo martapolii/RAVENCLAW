@@ -1,0 +1,45 @@
+
+.base-button {
+  background-color: #dadada ;
+  color: #0e1a40; 
+  padding: 15px 20px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.base-button:hover {
+  background-color: #2f3c74;
+  color: #c0c0c0;
+  cursor: pointer;
+}
+
+/* DELETE buttons*/
+.delete-button {
+  background-color: #6b1310; /* red */
+  color: #c0c0c0;
+  font-family: inherit;
+}
+.delete-button:hover {
+  background-color: #c73530;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* LOGOUT button */
+.logout-button {
+  background-color: #2f3c74; 
+  color: #c0a16b;
+  padding: 5px 10px;
+  font-size: 1em;
+  margin-left: 100%;
+}
+.logout-button:hover{
+  background-color: #c0a16b;
+  color: #ffffff;
+  cursor: pointer;
+}
+

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../css/buttons.css';
 
 const GamePlay = () => {
   const [questions, setQuestions] = useState([]); // State to store questions
@@ -49,7 +50,7 @@ useEffect(() => {
   return (
     <div className="gameplay-container" style={gameplayContainerStyle}>
 
-      <h2>Harry Potter Trivia</h2>
+      <h2 style={headerStyle} >Harry Potter Trivia</h2>
       
       {/* Check if questions are available and not empty */}
       {questions.length > 0 ? (
@@ -71,6 +72,17 @@ useEffect(() => {
                         : "#f44336"
                       : "#946b2b",
                 }}
+                onMouseOver={(e) => {
+                  if (!isAnswered) {
+                    e.target.style.backgroundColor = optionButtonHoverStyle.backgroundColor;
+                  }
+                }}
+                onMouseOut={(e) => {
+                  if (!isAnswered) {
+                    e.target.style.backgroundColor = optionButtonStyle.backgroundColor;
+                  }
+                }}
+
                 disabled={isAnswered}
               >
                 {option}
@@ -78,7 +90,7 @@ useEffect(() => {
             ))}
           </div>
           {isAnswered && (
-            <button onClick={handleNextQuestion} style={nextButtonStyle}>
+            <button onClick={handleNextQuestion} className="base-button next-question">
               Next Question
             </button>
           )}
@@ -97,19 +109,21 @@ useEffect(() => {
 // Inline styles for GamePlay component
 // Inline styles for GamePlay component
 const gameplayContainerStyle = {
-  backgroundColor: "#f4f4f9",
+  backgroundColor: "#0e1a40",
   padding: "20px",
   borderRadius: "8px",
   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
   maxWidth: "600px",
   margin: '20px auto',
   textAlign: "center",
+  color: "#ffffff",
 };
 
 const headerStyle = { // Added this to make the color scheme between GamePlay and UserProfile consistent - T
-  color: '#0e1a40', 
-  fontSize: '2rem',
+  color: '#946b2b', 
+  fontSize: '1.8rem',
   marginBottom: '20px',
+  fontFamily: "'Georgia', serif",
 };
 
 const questionStyle = {
@@ -128,22 +142,16 @@ const optionButtonStyle = {
   padding: "12px",
   fontSize: "1.1rem",
   color: "#fff",
+  backgroundColor: '#946b2b',
   border: "none",
   borderRadius: "5px",
   cursor: "pointer",
   transition: "background-color 0.3s ease",
 };
 
-const nextButtonStyle = {
-  padding: "12px 24px",
-  fontSize: "1.1rem",
-  backgroundColor: "#0e1a40",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-  transition: "background-color 0.3s ease",
-};
+const optionButtonHoverStyle = {
+  backgroundColor: "#c0a16b", 
+}
 
 const scoreContainerStyle = {
   marginTop: "20px",

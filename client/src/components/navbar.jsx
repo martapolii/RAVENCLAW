@@ -1,8 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'; // navink styles the active link automatically!!
+import { NavLink, useNavigate } from 'react-router-dom'; // navink styles the active link automatically!!
 import '../css/navbar.css';
 
 const Navbar = ({ isAuthenticated, isAdmin, onLogout }) => {
+  
+  //users weren't being redirected to home page after logging in, so added this:
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    onLogout(); // call logout from app.jsx
+    navigate('/');
+  };
+
+
   return (
     <nav>
       <div>
@@ -32,7 +41,7 @@ const Navbar = ({ isAuthenticated, isAdmin, onLogout }) => {
           <>
             <li><NavLink to="/user-profile" className={({ isActive }) => (isActive ? 'active' : undefined)}>My Profile</NavLink></li>
             <li><NavLink to="/game-play" className={({ isActive }) => (isActive ? 'active' : undefined)}>Game Play</NavLink></li>
-            <li><button onClick={onLogout} style={{background: 'none', color: 'white', cursor: 'pointer' }}>Logout</button></li>
+            <li><button onClick={handleLogout} className="base-button logout-button">Logout</button></li>
           </>
         )}
       </ul>

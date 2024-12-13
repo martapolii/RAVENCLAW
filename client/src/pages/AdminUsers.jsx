@@ -1,213 +1,157 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import "../css/AdminUsers.css";
 
-const UserProfile = () => {
-  const [userInfo, setUserInfo] = useState(null); // add default state so that empty object is not returned = error
-  const [isLoading, setIsLoading] = useState(true); 
-  const [isEditing, setIsEditing] = useState(false); 
-  const [editValues, setEditValues] = useState({});
+const AdminUsers = () => {
+  const [users, setUsers] = useState([]); // list of users 
+  const [newUser, setNewUser] = useState({ username: '', password: '', role: 'user' }); // new user input
+  // user being edited: 
+  const [editingUser, setEditingUser] = useState(null); 
+  const [editValues, setEditValues] = useState({}); 
+  const [error, setError] = useState(null);
 
-  // getting user info from the database
+  // list all users
+  const fetchUsers = async () => {
+    try { 
+      const response = await axios.get('/api/users', {
+        withCredentials: true, // send cookies when making requests  
+  });
+  setUsers(response.data);
+    } catch (err) {
+      console.error('Eror fetching users:', err);  
+      setError('Failed to fetch users.');
+    }
+  }; 
+
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // using token to get user info (has to be admin account)
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user info');
-        }
-
-        const data = await response.json(); // fetch and parse response
-        console.log('Fetched user data:', data); // debug fetched data
-        setUserInfo(data);
-        setEditValues(data); // update fields for editing
-      } catch (error) {
-        console.error('Error fetching user information:', error);
-      } finally {
-        setIsLoading(false); // loading = false after fetch
-      }
-    };
-
-    fetchUserInfo();
+    fetchUsers();
   }, []);
 
-  // Handle input changes during edit
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Save changes to the backend
-  const handleSave = async () => {
+  // add new user
+  const handleAddUser = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userInfo.id}`, { // save by user ID
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // using token to get user info (has to be admin account)
-        },
-        body: JSON.stringify(editValues),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update user profile');
-      }
-      const updatedUser = await response.json();
-      setUserInfo(updatedUser);
-      setIsEditing(false);
-      alert('Profile updated successfully!'); // Happy path
-    } catch (error) { // Sad path
-      console.error('Error updating user profile:', error);
-      alert('Failed to update profile.');
+  const response = await axios.post('/api/users/register', newUser, {
+        withCredentials: true,});
+      setUsers([...users, response.data]); // add new user to list
+      setNewUser({ username: '', password: '', role: 'user' }); // clear inputs
+    } catch (err) {
+      console.error('Error adding user:', err);
+      setError('Failed to add user.'); 
     }
   };
 
-  // Cancel editing
-  const handleCancel = () => {
-    setEditValues({ ...userInfo });
-    setIsEditing(false);
-  };
-  
-  const errormsg = { // error message style
-    color: 'red',
-    fontSize: '1.5rem',
-    textAlign: 'center',
-  };
-
-  if (isLoading) {
-    return <p>Loading...</p>; // show this msg while loading
-  }
-
-  if (!userInfo) {
-    return <p style={errormsg}>No user information available.</p>; //  when user data is unavailable
-  }
-
-  // Styles
-  const profileContainerStyle = {
-    backgroundColor: '#f4f4f9',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    maxWidth: '600px',
-    margin: '20px auto',
-    textAlign: 'center',
+  // delete a user
+  const handleDeleteUser = async (userId) => {
+    try{
+      await axios.delete(`/api/users/${userId}`, { 
+      withCredentials: true, }); 
+      setUsers(users.filter((user) => user._id !== userId)); // remove deleted user
+    } catch (err) {  
+      console.error('Error deleting the user:', err);
+      setError('Failed to delete user.');
+    }
   };
 
-  const headerStyle = {
-    color: '#0e1a40',
-    fontSize: '2rem',
-    marginBottom: '20px',
-  };
-
-  const userInfoStyle = {
-    textAlign: 'left',
-    fontSize: '1.2rem',
-    marginBottom: '20px',
-  };
-
-  const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    margin: '10px 0',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    fontSize: '1rem',
-  };
-
-  const actionsStyle = {
-    display: 'flex',
-    gap: '20px',
-    justifyContent: 'center',
-  };
-
-  const buttonStyle = {
-    padding: '12px 24px',
-    fontSize: '1.1rem',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
-
-  const saveButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#1f2a59',
-    color: 'white',
-  };
-
-  const cancelButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#d9534f',
-    color: 'white',
+// update user  
+  const handleUpdateUser = async () => { 
+    try {
+      const response = await axios.put(`/api/users/${editingUser._id}`, editValues, {
+      withCredentials: true,});
+      setUsers(users.map((user) => (user._id === editingUser._id ? response.data : user))); // update list
+      setEditingUser(null); // exit edit mode
+    } catch (err) {
+      console.error('Error updating user:', err);
+      setError('Failed to update user.');
+    }
   };
 
   return (
-    <div style={profileContainerStyle}>
-      <h2 style={headerStyle}>View User Accounts</h2>
-      {isEditing ? (
+    <div className="container">
+      <h1 className="header">Admin - Manage Users</h1>
+
+      {/* error */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* form to add user */}
+      <div className="question-list">
+        <h2>Add New User</h2>
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={newUser.username}
+          onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
+        />
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={newUser.password}
+          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+        />
+        <select className="button"
+          value={newUser.role}
+          onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button className="button" onClick={handleAddUser}>Add User</button>
+      </div>
+
+      {/* list of users */}
+      <div className="question-list">
+        <h2>All Users</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="button" onClick={() => setEditingUser(user) & setEditValues(user)}>Edit</button>
+                  <button className="button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Edit User Form */}
+      {editingUser && (
         <div>
+          <h2>Edit User</h2>
           <input
-            style={inputStyle}
             type="text"
-            name="name"
-            value={editValues.name || ''}
-            onChange={handleInputChange}
-            placeholder="Name"
+            value={editValues.username}
+            onChange={(e) => setEditValues({ ...editValues, username: e.target.value })}
           />
           <input
-            style={inputStyle}
-            type="email"
-            name="email"
-            value={editValues.email || ''}
-            onChange={handleInputChange}
-            placeholder="Email"
+            type="text"
+            value={editValues.email}
+            onChange={(e) => setEditValues({ ...editValues, email: e.target.value })}
           />
-          <input
-            style={inputStyle}
-            type="number"
-            name="score"
-            value={editValues.score || 0}
-            onChange={handleInputChange}
-            placeholder="Score"
-          />
-          <div style={actionsStyle}>
-            <button style={saveButtonStyle} onClick={handleSave}>
-              Save
-            </button>
-            <button style={cancelButtonStyle} onClick={handleCancel}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div style={userInfoStyle}>
-          <p>
-            <strong>Name:</strong> {userInfo.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {userInfo.email}
-          </p>
-          <p>
-            <strong>Score:</strong> {userInfo.score}
-          </p>
-          <button
-            style={saveButtonStyle}
-            onClick={() => setIsEditing(true)}
+          <select
+            value={editValues.role}
+            onChange={(e) => setEditValues({ ...editValues, role: e.target.value })}
           >
-            Edit Profile
-          </button>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button onClick={handleUpdateUser}>Save</button>
+          <button onClick={() => setEditingUser(null)}>Cancel</button>
         </div>
       )}
     </div>
   );
 };
 
-export default UserProfile;
+export default AdminUsers;

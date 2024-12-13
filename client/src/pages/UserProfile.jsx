@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // For making API requests
+import '../css/buttons.css';
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({
@@ -62,20 +63,22 @@ const UserProfile = () => {
 
   // Styling for profile container
   const profileContainerStyle = {
-    backgroundColor: '#f4f4f9',
+    backgroundColor: '#0e1a40',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     maxWidth: '600px',
     margin: '20px auto',
     textAlign: 'center',
+    color: '#946b2b'
   };
 
   // Styling for headers
   const headerStyle = {
-    color: '#0e1a40',
-    fontSize: '2rem',
+    color: '#946b2b',
+    fontSize: '1.5rem',
     marginBottom: '20px',
+    fontFamily: "'Georgia', serif",
   };
 
   // Styling for user information
@@ -90,35 +93,6 @@ const UserProfile = () => {
     display: 'flex',
     gap: '20px',
     justifyContent: 'center',
-  };
-
-  const buttonStyle = {
-    padding: '12px 24px',
-    fontSize: '1.1rem',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
-
-  const editButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#1f2a59',
-    color: 'white',
-  };
-
-  const logoutButtonStyle = {
-    ...buttonStyle,
-    backgroundColor: '#d9534f',
-    color: 'white',
-  };
-
-  const editButtonHoverStyle = {
-    backgroundColor: '#0e1a40',
-  };
-
-  const logoutButtonHoverStyle = {
-    backgroundColor: '#c9302c',
   };
 
   return (
@@ -147,28 +121,22 @@ const UserProfile = () => {
       </div>
       <div style={actionsStyle}>
         <button
-          style={editButtonStyle}
-          onMouseOver={(e) => (e.target.style.backgroundColor = editButtonHoverStyle.backgroundColor)}
-          onMouseOut={(e) => (e.target.style.backgroundColor = editButtonStyle.backgroundColor)}
+          className="base-button"
           onClick={handleUpdate}
         >
           Update Profile
         </button>
         <button
-          style={logoutButtonStyle}
-          onMouseOver={(e) => (e.target.style.backgroundColor = logoutButtonHoverStyle.backgroundColor)}
-          onMouseOut={(e) => (e.target.style.backgroundColor = logoutButtonStyle.backgroundColor)}
-          onClick={handleDelete}
-        >
-          Delete Account
-        </button>
-        <button
-          style={logoutButtonStyle}
-          onMouseOver={(e) => (e.target.style.backgroundColor = logoutButtonHoverStyle.backgroundColor)}
-          onMouseOut={(e) => (e.target.style.backgroundColor = logoutButtonStyle.backgroundColor)}
+          className="base-button"
           onClick={handleLogout}
         >
           Logout
+        </button>
+        <button
+          className="base-button delete-button"
+          onClick={handleDelete}
+        >
+          Delete Account
         </button>
       </div>
     </div>
