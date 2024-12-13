@@ -22,12 +22,12 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 // Enable CORS for all origins (adjust as needed)
-app.use(cors(
-  {
-    origin: 'http://localhost:5173',
-    credentials: true, //allows cookies
-  }
-));
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // frontend URL
+    credentials: true, // allows cookies
+  })
+);
 
 // Add middleware to parse JSON and URL-encoded request bodies
 app.use(express.json()); // Parses JSON bodies
@@ -35,7 +35,8 @@ app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
 app.use(cookieParser()); // parse cookies
 
 // MongoDB connection
-mongoose.connect(config.mongoUri)
+mongoose
+  .connect(config.mongoUri)
   .then(() => {
     console.log('Connected to MongoDB');
   })
