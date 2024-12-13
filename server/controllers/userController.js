@@ -45,6 +45,14 @@ export const registerUser = async (req, res) => {
             { expiresIn: '1h' }
         );
 
+        // set the token as an HTTP-only cookie bc added cookies for security and easy logout, so making it consistent with login function
+    res.cookie('authToken', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600000, // 1 hour
+    });
+
         res.status(201).json({
             id: user._id,
             email: user.email,
