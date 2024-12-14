@@ -6,11 +6,10 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "./node_modules/.bin/vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "postinstall": "ls node_modules && vite --version"
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "react": "^18.3.1",
