@@ -18,7 +18,10 @@ const handleSubmit = async (e) => {
 
   try {
     //  POST request to the backend login api endpoiint
-    const response = await axios.post('/api/users/login', {email, password,});
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login`, //backend running on render
+      {email, password,},
+      { withCredentials: true } // cookie
+    );
 
     if (response.status !== 200) { //error if invalid password/email
       throw new Error('Invalid credentials');
