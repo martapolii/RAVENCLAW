@@ -1,4 +1,7 @@
-*needs to be updated*
+## Frontend running on : https://raven-claw.netlify.app/
+## Back end running on: https://ravenclaw-backend.onrender.com
+
+---
 
 # RAVEN CLAW - Harry Potter Trivia Web Application
 RAVEN CLAW is an interactive Harry Potter-themed trivia web application built using the MERN stack (MongoDB, ExpressJS, React, and Node.js). This project is developed as part of a group assignment for COMP229 – Web Application Development.
